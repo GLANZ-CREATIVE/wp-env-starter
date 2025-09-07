@@ -1,0 +1,41 @@
+/* stylelint-disable scss/at-rule-no-unknown */
+/* stylelint-disable no-invalid-position-at-import-rule */
+@use "tailwindcss";
+
+#front-page {
+  @import "./page/front-page.css";
+}
+
+@theme {
+  --font-base:
+    "Inter", "Noto Sans JP", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+}
+
+:root {
+  --background: oklch(100% 0 0deg);
+  --foreground: oklch(0% 0 0deg);
+  --primary: oklch(60% 0.25 260deg);
+}
+
+body {
+  display: block;
+  color: var(--color-foreground);
+  font-family: var(--font-base);
+  background-color: var(--color-background);
+}
