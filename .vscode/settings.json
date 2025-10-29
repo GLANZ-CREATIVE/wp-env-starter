@@ -20,6 +20,10 @@
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[php]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "javascript.preferences.importModuleSpecifier": "non-relative",
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"]
 }
