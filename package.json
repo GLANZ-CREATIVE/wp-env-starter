@@ -17,7 +17,7 @@
     "phpmyadmin:start": "docker-compose -f docker-compose.phpmyadmin.yml up -d",
     "phpmyadmin:stop": "docker-compose -f docker-compose.phpmyadmin.yml down",
     "format": "prettier --write 'theme/**/*.{css,scss,js,ts,php}' && npm run sort:tailwind",
-    "sort:tailwind": "rustywind --write 'theme/**/*.php'",
+    "sort:tailwind": "rustywind --write theme",
     "stylelint": "stylelint 'theme/src/**/*.{css,scss}' --fix",
     "eslint": "eslint 'theme/src/**/*.{js,ts}' --fix"
   },
