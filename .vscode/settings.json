@@ -3,6 +3,13 @@
   "css.validate": false,
   "scss.validate": false,
   "stylelint.validate": ["css", "scss", "less"],
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "tailwindCSS.includeLanguages": {
+    "css": "css",
+    "php": "html"
+  },
   "editor.codeActionsOnSave": {
     "source.fixAll.stylelint": "explicit",
     "source.fixAll.eslint": "explicit"
