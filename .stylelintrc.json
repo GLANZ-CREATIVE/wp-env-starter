@@ -28,5 +28,6 @@
         "text-align"
       ]
     ]
-  }
+  },
+  "ignoreFiles": ["theme/dist/**/*.css", "theme/src/css/index.css"]
 }
