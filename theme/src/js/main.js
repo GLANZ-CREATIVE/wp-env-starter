@@ -1,5 +1,5 @@
 // Import styles
-import "../scss/style.scss";
+import "../css/index.css";
 
 import { hello } from "./modules/hello";
 

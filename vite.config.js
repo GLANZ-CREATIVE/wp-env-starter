@@ -1,33 +1,33 @@
-import { defineConfig } from 'vite';
-import { resolve } from 'path';
-import tailwindcss from '@tailwindcss/vite'
+import tailwindcss from "@tailwindcss/vite";
+import { resolve } from "path";
+import { defineConfig } from "vite";
 
 export default defineConfig({
-  root: 'theme/src',
-  base: process.env.NODE_ENV === 'production' ? './' : '/',
+  root: "theme/src",
+  base: process.env.NODE_ENV === "production" ? "./" : "/",
   server: {
-    host: '0.0.0.0',
+    host: "0.0.0.0",
     port: 3000,
     strictPort: true,
     cors: true,
     hmr: {
-      host: 'localhost'
+      host: "localhost",
     },
     watch: {
       usePolling: false,
-      interval: 1000
-    }
+      interval: 1000,
+    },
   },
   build: {
-    outDir: resolve(__dirname, 'theme/dist'),
+    outDir: resolve(__dirname, "theme/dist"),
     emptyOutDir: true,
     manifest: true,
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'theme/src/js/main.js'),
-        style: resolve(__dirname, 'theme/src/scss/style.scss')
-      }
-    }
+        main: resolve(__dirname, "theme/src/js/main.js"),
+        style: resolve(__dirname, "theme/src/scss/style.scss"),
+      },
+    },
   },
   css: {
     preprocessorOptions: {
@@ -39,7 +39,5 @@ export default defineConfig({
       },
     },
   },
-  plugins: [
-    tailwindcss(),
-  ]
+  plugins: [tailwindcss()],
 });
