@@ -1,7 +1,7 @@
 pre-commit:
   parallel: true
   commands:
-    prettier:
+    format:
       run: npm run format
     stylelint:
       run: npm run stylelint

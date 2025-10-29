@@ -16,7 +16,8 @@
     "setup": "node setup.js && npm run dev",
     "phpmyadmin:start": "docker-compose -f docker-compose.phpmyadmin.yml up -d",
     "phpmyadmin:stop": "docker-compose -f docker-compose.phpmyadmin.yml down",
-    "format": "prettier --write 'theme/**/*.{css,scss,js,ts,php}'",
+    "format": "prettier --write 'theme/**/*.{css,scss,js,ts,php}' && npm run sort:tailwind",
+    "sort:tailwind": "rustywind --write 'theme/**/*.php'",
     "stylelint": "stylelint 'theme/src/**/*.{css,scss}' --fix",
     "eslint": "eslint 'theme/src/**/*.{js,ts}' --fix"
   },
@@ -26,6 +27,7 @@
     "@wordpress/env": "^8.7.0",
     "lefthook": "^1.12.3",
     "prettier-plugin-tailwindcss": "^0.7.1",
+    "rustywind": "^0.24.3",
     "sass": "^1.69.5",
     "stylelint": "^16.24.0",
     "stylelint-config-standard-scss": "^15.0.1",
