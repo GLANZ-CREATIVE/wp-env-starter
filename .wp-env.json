@@ -2,9 +2,7 @@
   "core": "https://ja.wordpress.org/latest-ja.zip",
   "phpVersion": "8.1",
   "plugins": [],
-  "themes": [
-    "./theme"
-  ],
+  "themes": ["./theme"],
   "port": 8888,
   "config": {
     "WP_DEBUG": true,
@@ -13,6 +11,7 @@
   },
   "mappings": {
     "wp-content/themes/theme/dist": "./theme/dist",
+    "wp-content/uploads": "./uploads",
     "sql": "./sql"
   }
 }
