@@ -30,3 +30,7 @@
     @apply font-base text-base tracking-wide;
   }
 }
+
+a {
+  @apply no-underline;
+}
