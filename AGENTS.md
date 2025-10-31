@@ -61,11 +61,11 @@ npm run eslint     # ESLint で JS/TS を自動修正
 
 ```bash
 # バックアップ
-npm run backup-db      # Linux/Mac (sql/backup-YYYYMMDD.sql に保存)
-npm run backup-db-win  # Windows
+npm run db:export      # Linux/Mac (sql/backup-YYYYMMDD.sql に保存)
+npm run db:export:win  # Windows
 
 # リストア
-npm run restore-db ./sql/backup-YYYYMMDD.sql
+npm run db:import ./sql/backup-YYYYMMDD.sql
 ```
 
 ## アーキテクチャ
