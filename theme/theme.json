@@ -241,26 +241,6 @@
             "background": "var(--wp--preset--color--main-400)"
           }
         }
-      },
-      "heading": {
-        "typography": {
-          "fontWeight": "700"
-        }
-      },
-      "h1": {
-        "typography": {
-          "fontSize": "var(--wp--preset--font-size--4-xl)"
-        }
-      },
-      "h2": {
-        "typography": {
-          "fontSize": "var(--wp--preset--font-size--3-xl)"
-        }
-      },
-      "h3": {
-        "typography": {
-          "fontSize": "var(--wp--preset--font-size--2-xl)"
-        }
       }
     },
     "blocks": {
