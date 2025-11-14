@@ -1,5 +1,4 @@
 # name: Deploy
-
 # on:
 #   push:
 #     branches:
@@ -44,13 +43,13 @@
 #             echo "ftp_host=${{ secrets.FTP_HOST_PROD }}" >> $GITHUB_OUTPUT
 #             echo "ftp_user=${{ secrets.FTP_USER_PROD }}" >> $GITHUB_OUTPUT
 #             echo "ftp_password=${{ secrets.FTP_PASSWORD_PROD }}" >> $GITHUB_OUTPUT
-#             echo "server_dir=/glanz-web.jp/public_html/domain/wp-content/themes/theme-name/" >> $GITHUB_OUTPUT
+#             echo "server_dir=${{ vars.FTP_SERVER_DIR_PROD }}" >> $GITHUB_OUTPUT
 #           else
 #             echo "environment=staging" >> $GITHUB_OUTPUT
 #             echo "ftp_host=${{ secrets.FTP_HOST_STG }}" >> $GITHUB_OUTPUT
 #             echo "ftp_user=${{ secrets.FTP_USER_STG }}" >> $GITHUB_OUTPUT
 #             echo "ftp_password=${{ secrets.FTP_PASSWORD_STG }}" >> $GITHUB_OUTPUT
-#             echo "server_dir=/glanz-web.jp/public_html/stg.iapa/wp-content/themes/iapa/" >> $GITHUB_OUTPUT
+#             echo "server_dir=${{ vars.FTP_SERVER_DIR_STG }}" >> $GITHUB_OUTPUT
 #           fi
 
 #       - name: FTP Deploy
