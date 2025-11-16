@@ -1,6 +1,6 @@
 # WordPress + Vite + Docker 開発環境
 
-Docker、Vite、WP-Env を使用して WordPress のローカル開発環境を構築します。
+Docker、Vite、wp-env を使用して WordPress のローカル開発環境を構築します。
 
 Ref: [https://github.com/Masahiro-web/simple-wp-dev](https://github.com/Masahiro-web/simple-wp-dev)
 
@@ -9,29 +9,40 @@ Ref: [https://github.com/Masahiro-web/simple-wp-dev](https://github.com/Masahiro
 - Node.js (v22 以上)
 - Docker と Docker Compose
 - npm または yarn
+- [wp-env](https://github.com/GLANZ-CREATIVE/wp-env-starter)
 
 ## セットアップ
 
 環境の起動時に Docker が実行されていることを確認してください。
 
 1. リポジトリをクローン
+
 2. 依存関係のインストール
+
    ```bash
    npm install
    ```
+
 3. WordPress 環境の起動
+
    ```bash
    npm run wp-env start
    ```
+
 4. フロントエンド開発サーバーの起動
+
    ```bash
    npm run dev
    ```
+
    または、一度に両方を起動
+
    ```bash
    npm run start
    ```
+
    phpmyadmin も同時起動する場合
+
    ```bash
    npm run setup
    ```
@@ -76,10 +87,10 @@ npm run backup-db-win
 
 ```bash
 # 特定のファイルを指定して復元
-npm run restore-db ./sql/バックアップファイル名.sql
+npm run import:db ./sql/バックアップファイル名.sql
 
 # 例
-npm run restore-db ./sql/backup-20250519.sql
+npm run import:db ./sql/backup-20250519.sql
 ```
 
 ## ビルド
@@ -96,24 +107,24 @@ npm run build
 
 ```plaintext
 .
-├── theme/                  # WordPressテーマディレクトリ
-│   ├── dist/              # ビルドされたアセット（JS, CSS）
-│   ├── src/               # ソースファイル
-|   |   ├── images/       # 画像ファイル（scss内でbackground-image等で指定されたファイルのみ格納する）
-│   │   ├── js/           # JavaScriptファイル
-│   │   │   └── main.js   # メインのJavaScriptファイル
-│   │   └── scss/         # SCSSファイル
-│   │       └── style.scss # メインのスタイルファイル
-│   ├── functions.php     # WordPressテーマ機能
-│   ├── index.php         # メインテンプレートファイル
-│   └── ...               # その他のテーマファイル
-├── sql/                    # データベースバックアップ
-│   └── backup-*.sql       # バックアップファイル
-├── package.json            # npm設定とスクリプト
-├── vite.config.js          # Vite設定ファイル
-├── tailwind.config.js      # Tailwind CSS設定
-├── postcss.config.js       # PostCSS設定
-└── .wp-env.json            # WordPress環境設定
+├── theme/                     # WordPressテーマディレクトリ
+│   ├── dist/                  # ビルドされたアセット（JS, CSS）
+│   ├── src/                   # ソースファイル
+│   │   ├── images/            # 画像ファイル（scss内でbackground-image等で指定されたファイルのみ格納する）
+│   │   ├── js/                # JavaScriptファイル
+│   │   └── scss/              # SCSSファイル
+│   │       └── style.scss     # メインのスタイルファイル
+│   ├── functions.php          # WordPressテーマ機能
+│   ├── index.php              # メインテンプレートファイル
+│   └── ...                    # その他のテーマファイル
+├── sql/                       # データベースバックアップ
+│   └── backup-*.sql           # バックアップファイル
+├── uploads/                   # アップロードファイル
+├── package.json               # npm設定とスクリプト
+├── vite.config.js             # Vite設定ファイル
+├── tailwind.config.js         # Tailwind CSS設定
+├── postcss.config.js          # PostCSS設定
+└── .wp-env.json               # WordPress環境設定
 ```
 
 ## 注意事項
