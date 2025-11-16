@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__serena__find_file",
+      "Bash(npm install:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
