@@ -7,3 +7,5 @@ pre-commit:
       run: npm run stylelint
     eslint:
       run: npm run eslint
+    php-lint:
+      run: npm run php:lint
