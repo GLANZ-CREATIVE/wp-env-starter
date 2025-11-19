@@ -1,3 +1,7 @@
+# WordPress + Vite + Docker 開発環境
+Docker、Vite、wp-env を使用して WordPress のローカル開発環境を構築します。  
+Ref: [https://github.com/Masahiro-web/simple-wp-dev](https://github.com/Masahiro-web/simple-wp-dev)
+
 **目次**
 
 - [WordPress + Vite + Docker 開発環境](#wordpress--vite--docker-開発環境)
@@ -14,11 +18,7 @@
   - [ディレクトリ構造](#ディレクトリ構造)
   - [注意事項](#注意事項)
 
-# WordPress + Vite + Docker 開発環境
-
-Docker、Vite、wp-env を使用して WordPress のローカル開発環境を構築します。
-
-Ref: [https://github.com/Masahiro-web/simple-wp-dev](https://github.com/Masahiro-web/simple-wp-dev)
+---
 
 - WordPress 環境は `http://localhost:8888` でアクセスできます
   - 管理画面: `http://localhost:8888/wp-admin/`

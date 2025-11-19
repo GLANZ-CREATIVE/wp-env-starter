@@ -19,7 +19,8 @@
     "format": "prettier --write 'theme/**/*.{css,scss,js,ts,php}' && npm run sort:tailwind",
     "sort:tailwind": "rustywind --write theme",
     "stylelint": "stylelint 'theme/src/**/*.{css,scss}' --fix",
-    "eslint": "eslint 'theme/src/**/*.{js,ts}' --fix"
+    "eslint": "eslint 'theme/src/**/*.{js,ts}' --fix",
+    "php:lint": "git diff --cached --name-only --diff-filter=ACM | grep '\\.php$' | xargs -I {} sh -c 'npm run wp-env run cli php -l {} || exit 1'"
   },
   "devDependencies": {
     "@prettier/plugin-php": "^0.24.0",
