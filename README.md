@@ -1,8 +1,8 @@
 # WordPress + Vite + Docker 開発環境
-
-**目次**
 Docker、Vite、wp-env を使用して WordPress のローカル開発環境を構築します。  
 Ref: [https://github.com/Masahiro-web/simple-wp-dev](https://github.com/Masahiro-web/simple-wp-dev)
+
+**目次**
 
 - [WordPress + Vite + Docker 開発環境](#wordpress--vite--docker-開発環境)
   - [開発環境側でインストールが必要なもの](#開発環境側でインストールが必要なもの)
