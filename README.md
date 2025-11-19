@@ -1,11 +1,12 @@
 # WordPress + Vite + Docker 開発環境
-Docker、Vite、wp-env を使用して WordPress のローカル開発環境を構築します。  
+
+Docker、Vite、wp-env を使用して WordPress のローカル開発環境を構築します。
+
 Ref: [https://github.com/Masahiro-web/simple-wp-dev](https://github.com/Masahiro-web/simple-wp-dev)
 
 **目次**
 
 - [WordPress + Vite + Docker 開発環境](#wordpress--vite--docker-開発環境)
-  - [開発環境側でインストールが必要なもの](#開発環境側でインストールが必要なもの)
   - [セットアップ](#セットアップ)
   - [環境設定](#環境設定)
     - [開発環境](#開発環境)
@@ -17,27 +18,16 @@ Ref: [https://github.com/Masahiro-web/simple-wp-dev](https://github.com/Masahiro
   - [ビルド](#ビルド)
   - [ディレクトリ構造](#ディレクトリ構造)
   - [注意事項](#注意事項)
-
----
-
-- WordPress 環境は `http://localhost:8888` でアクセスできます
-  - 管理画面: `http://localhost:8888/wp-admin/`
-  - ユーザー名: `admin`
-  - パスワード: `password`
-- フロントエンドの開発には Vite を使用します（`http://localhost:3000`）
-- テーマの変更は `./theme` ディレクトリ内で行います
-- ソースファイルは `./theme/src` ディレクトリにあります
-
-## 開発環境側でインストールが必要なもの
-
-- Node.js (v22 以上)
-- Docker と Docker Compose
-- npm または yarn
-- [wp-env](https://github.com/GLANZ-CREATIVE/wp-env-starter)
+  - [トラブルシューティング](#トラブルシューティング)
 
 ## セットアップ
 
 環境の起動時に Docker が実行されていることを確認してください。
+
+- Node.js (v22 以上)
+- Docker と Docker Compose
+- npm
+- [wp-env](https://github.com/GLANZ-CREATIVE/wp-env-starter)
 
 1. リポジトリをクローン
 
@@ -77,6 +67,11 @@ Ref: [https://github.com/Masahiro-web/simple-wp-dev](https://github.com/Masahiro
 
 `.wp-env.json` で開発環境の設定を行います：
 
+- WordPress 環境 `http://localhost:8888`
+  - 管理画面: `http://localhost:8888/wp-admin/`
+  - ユーザー名: `admin`
+  - パスワード: `password`
+- テーマの変更は `./theme` ディレクトリ内で行います
 - `WP_ENVIRONMENT_TYPE`: `local`（自動的に設定）
 - `WP_DEBUG`: `true`（デバッグモード有効）
 - `SCRIPT_DEBUG`: `true`（圧縮されていないスクリプトを使用）
@@ -190,3 +185,8 @@ npm run build
 
 - ビルド時に Tailwindcss の記述が dist の css に含まれますが不要な場合は`/src/scss/style.scss`の 1 行目を削除してください。
 - `/src/scss/style.scss`で指定された背景画像ファイルは`/src/images/`ディレクトリに格納してください。
+
+## トラブルシューティング
+
+- **プラグインでDBの移行をした時に「theme」というテーマに設定されてしまう**  
+  CI/CDを通じてデプロイされることを想定しているため、プラグインでDBの移行を行うとテーマ名が「theme」になってしまいます。DBの移行を行った場合は、管理画面からテーマを再度変更してください。
