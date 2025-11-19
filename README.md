@@ -1,8 +1,30 @@
+- [WordPress + Vite + Docker 開発環境](#wordpress--vite--docker-開発環境)
+  - [開発環境側でインストールが必要なもの](#開発環境側でインストールが必要なもの)
+  - [セットアップ](#セットアップ)
+  - [環境設定](#環境設定)
+    - [開発環境](#開発環境)
+    - [本番環境](#本番環境)
+    - [アセット管理](#アセット管理)
+  - [主な npm コマンド](#主な-npm-コマンド)
+    - [データベースのバックアップ](#データベースのバックアップ)
+    - [データベースのリストア](#データベースのリストア)
+  - [ビルド](#ビルド)
+  - [フォルダ構造](#フォルダ構造)
+  - [注意事項](#注意事項)
+
 # WordPress + Vite + Docker 開発環境
 
 Docker、Vite、wp-env を使用して WordPress のローカル開発環境を構築します。
 
 Ref: [https://github.com/Masahiro-web/simple-wp-dev](https://github.com/Masahiro-web/simple-wp-dev)
+
+- WordPress 環境は `http://localhost:8888` でアクセスできます
+  - 管理画面: `http://localhost:8888/wp-admin/`
+  - ユーザー名: `admin`
+  - パスワード: `password`
+- フロントエンドの開発には Vite を使用します（`http://localhost:3000`）
+- テーマの変更は `./theme` ディレクトリ内で行います
+- ソースファイルは `./theme/src` ディレクトリにあります
 
 ## 開発環境側でインストールが必要なもの
 
@@ -47,15 +69,46 @@ Ref: [https://github.com/Masahiro-web/simple-wp-dev](https://github.com/Masahiro
    npm run setup
    ```
 
-## 開発
+## 環境設定
 
-- WordPress 環境は `http://localhost:8888` でアクセスできます
-  - 管理画面: `http://localhost:8888/wp-admin/`
-  - ユーザー名: `admin`
-  - パスワード: `password`
-- フロントエンドの開発には Vite を使用します（`http://localhost:3000`）
-- テーマの変更は `./theme` ディレクトリ内で行います
-- ソースファイルは `./theme/src` ディレクトリにあります
+### 開発環境
+
+`.wp-env.json` で開発環境の設定を行います：
+
+- `WP_ENVIRONMENT_TYPE`: `local`（自動的に設定）
+- `WP_DEBUG`: `true`（デバッグモード有効）
+- `SCRIPT_DEBUG`: `true`（圧縮されていないスクリプトを使用）
+- アセットは Vite 開発サーバー（`http://localhost:3000`）から HMR で配信
+
+### 本番環境
+
+本番環境では WordPress の `wp-config.php` ファイルで以下の設定を行います：
+
+```php
+// 環境タイプの設定（未設定の場合は production として扱われる）
+define("WP_ENVIRONMENT_TYPE", "production");
+
+// デバッグモードを無効化
+define("WP_DEBUG", false);
+define("SCRIPT_DEBUG", false);
+```
+
+**設定手順：**
+
+1. サーバー上の WordPress ルートディレクトリにある `wp-config.php` を編集
+2. 上記の設定を追加（既存の設定がある場合は上書き）
+3. `npm run build` でビルド済みアセットを生成してからデプロイ
+4. アセットは `theme/dist/.vite/manifest.json` から自動的に読み込まれる
+
+**注意：** `.wp-env.json` は開発環境専用のファイルです。本番環境では使用しません。
+
+### アセット管理
+
+- **画像ファイル**: `assets_url('images/example.png')` を使用すると、自動的に Vite の最適化パイプラインを通します
+  - 開発環境: Vite dev server (`http://localhost:3000`) から配信
+  - 本番環境: ビルド時に最適化された画像を `manifest.json` から読み込み
+- **その他のアセット**: `assets_url('css/custom.css')` で `src/assets/` から直接配信
+- **テーマルートのファイル**: `public_url('ogp.png')` でテーマルートのファイルを参照
 
 ## 主な npm コマンド
 
@@ -75,10 +128,10 @@ SQL ファイルとしてデータベースをエクスポートするには、�
 
 ```bash
 # Linux/Mac環境の場合
-npm run backup-db
+npm run backup:db
 
 # Windows環境の場合
-npm run backup-db-win
+npm run backup:db:win
 ```
 
 ### データベースのリストア
@@ -114,7 +167,11 @@ npm run build
 │   │   ├── js/                # JavaScriptファイル
 │   │   └── scss/              # SCSSファイル
 │   │       └── style.scss     # メインのスタイルファイル
-│   ├── functions.php          # WordPressテーマ機能
+│   ├── functions/             # テーマ機能ファイル
+│   │   ├── helper.php         # ヘルパー関数
+│   │   ├── vite.php           # Vite関連関数
+│   │   └── assets.php         # アセット読み込み関連
+│   ├── functions.php          # WordPressテーマ機能（各ファイルを読み込み）
 │   ├── index.php              # メインテンプレートファイル
 │   └── ...                    # その他のテーマファイル
 ├── sql/                       # データベースバックアップ
