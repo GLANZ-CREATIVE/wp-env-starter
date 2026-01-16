@@ -24,10 +24,12 @@ Ref: [https://github.com/Masahiro-web/simple-wp-dev](https://github.com/Masahiro
 
 環境の起動時に Docker が実行されていることを確認してください。
 
-- Node.js (v22 以上)
+- Node.js (v24 以上)
 - Docker と Docker Compose
 - npm
 - [wp-env](https://github.com/GLANZ-CREATIVE/wp-env-starter)
+
+mise 利用時: バージョンが異なる場合は `mise install` で指定版を取得し、`mise shell`（一時）または `mise use -g node@24`（グローバル）で有効化。`node -v` で反映を確認。
 
 1. リポジトリをクローン
 
@@ -109,12 +111,14 @@ define("SCRIPT_DEBUG", false);
 
 ## 主な npm コマンド
 
-- `npm run start` - WordPress 環境と Vite 開発サーバーを同時に起動
-- `npm run setup` - WordPress 環境と Vite 開発サーバーを同時に起動（phpmyadmin のコンテナも構築する）
+- `npm run start` - WordPress 環境と Vite 開発サーバーを同時に起動（Mailpit も同時起動）
+- `npm run setup` - WordPress 環境と Vite 開発サーバーを同時に起動（phpmyadmin のコンテナも構築し、Mailpit も起動）
 - `npm run wp-env start` - WordPress の Docker 環境のみを起動
 - `npm run dev` - Vite 開発サーバーのみを起動
-- `npm run stop` - WordPress 環境を停止
+- `npm run stop` - WordPress 環境を停止（Mailpit も停止）
 - `npm run destroy` - WordPress 環境を完全に削除（データも削除）
+- `mailpit:start` - Mailpit を単体で起動する
+- `mailpit:stop` - Mailpit を停止する
 - `phpmyadmin:start` - phpmyadmin を起動する
 - `phpmyadmin:stop` - phpmyadmin を停止する
 
@@ -185,6 +189,13 @@ npm run build
 
 - ビルド時に Tailwindcss の記述が dist の css に含まれますが不要な場合は`/src/scss/style.scss`の 1 行目を削除してください。
 - `/src/scss/style.scss`で指定された背景画像ファイルは`/src/images/`ディレクトリに格納してください。
+
+## メール送信（Mailpit）
+
+- Mailpit UI: `http://localhost:8025`
+- SMTP: `localhost:1025`（コンテナ内からは `host.docker.internal:1025`）
+- 起動/停止: `npm run start` / `npm run setup` で自動起動、`npm run stop` で停止（単体起動は `npm run mailpit:start`）
+- テスト送信: WordPress 管理画面のテストメール、または `npm run wp-env run cli wp mail test`
 
 ## トラブルシューティング
 
