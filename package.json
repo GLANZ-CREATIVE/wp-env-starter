@@ -22,7 +22,8 @@
     "sort:tailwind": "rustywind --write theme",
     "stylelint": "stylelint 'theme/src/**/*.{css,scss}' --fix",
     "eslint": "eslint 'theme/src/**/*.{js,ts}' --fix",
-    "php:lint": "git diff --cached --name-only --diff-filter=ACM | grep '\\.php$' | xargs -I {} sh -c 'npm run wp-env run cli php -l /var/www/html/wp-content/{} </dev/null || exit 1'"  },
+        "php:lint": "git diff --cached --name-only --diff-filter=ACM | grep '\\.php$' | xargs -I {} sh -c 'php -l {} || exit 1'"
+  },
   "devDependencies": {
     "@prettier/plugin-php": "^0.24.0",
     "@tailwindcss/postcss": "^4.1.13",
