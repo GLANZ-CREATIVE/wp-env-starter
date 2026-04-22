@@ -2,10 +2,12 @@ pre-commit:
   parallel: true
   commands:
     format:
-      run: npm run format
+      run: pnpm format
     stylelint:
-      run: npm run stylelint
+      run: pnpm stylelint
     eslint:
-      run: npm run eslint
+      run: pnpm eslint
     php-lint:
-      run: npm run php:lint
+      run: pnpm php:lint
+    php-cs:
+      run: pnpm php:cs:staged

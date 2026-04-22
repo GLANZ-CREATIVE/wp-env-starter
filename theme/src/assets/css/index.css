@@ -1,15 +1,15 @@
+@import url("tailwindcss");
+
 @source "../../../**/*.php";
 @source "../../**/*.php";
 @source "../../../patterns/**/*.php";
-@import "tailwindcss";
 
 :root {
   --font-base: arial, hiragino kaku gothic pron, hiragino sans, noto sans jp, sans-serif, segoe ui emoji, segoe ui symbol;
 }
 
 @theme {
-  --font-base: var(--font-base);
-  --font-size-base: 1rem;
+  --font-sans: var(--font-base);
   --color-main-100: #e6f1ff;
   --color-main-200: #cce0ff;
   --color-main-300: #a3c8ff;
@@ -27,7 +27,10 @@
   }
 
   body {
-    @apply font-base text-base tracking-wide;
+    font-family: var(--font-base);
+    font-size: 1rem;
+    line-height: 1.5;
+    letter-spacing: 0.05em;
   }
 }
 

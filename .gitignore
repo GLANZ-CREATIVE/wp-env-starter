@@ -31,5 +31,17 @@ node_modules/
 ehthumbs.db
 Thumbs.db
 
+# Composer
+/vendor/
+
+# Block build output
+/theme/blocks/*/build/
+
+# Generated responsive images
+/theme/src/assets/images/**/*-w[0-9]*.jpg
+/theme/src/assets/images/**/*-w[0-9]*.jpeg
+/theme/src/assets/images/**/*-w[0-9]*.png
+/theme/src/assets/images/**/*-w[0-9]*.webp
+
 # mics
 .claude/settings.local.json
