@@ -7,19 +7,21 @@ WordPress テーマ開発環境。Vite による HMR 対応の開発サーバー
 
 ### 前提条件
 - Docker と Docker Compose が起動していること
-- Node.js v22 以上がインストールされていること
+- Node.js v24 以上がインストールされていること
+- pnpm 10.33.0（corepack 経由で有効化）
+- Composer（PHPCS 用）
 
 ### 起動コマンド
 ```bash
 # WordPress + Vite 開発サーバーを同時起動
-npm run start
+pnpm start
 
 # phpMyAdmin も含めて起動
-npm run setup
+pnpm setup
 
 # 個別起動
-npm run wp-env start  # WordPress のみ
-npm run dev           # Vite のみ
+pnpm wp-env start  # WordPress のみ
+pnpm dev           # Vite のみ
 ```
 
 ### アクセス URL
@@ -29,28 +31,31 @@ npm run dev           # Vite のみ
 
 ### 停止・削除
 ```bash
-npm run stop     # 環境を停止
-npm run destroy  # 環境を完全削除（データも削除される）
+pnpm stop     # 環境を停止
+pnpm destroy  # 環境を完全削除（データも削除される）
 ```
 
 ## ビルド・テスト・リント
 
 ```bash
-npm run build      # 本番用ビルド（theme/dist に出力）
-npm run format     # Prettier でフォーマット（PHP, CSS, SCSS, JS, TS）
-npm run stylelint  # Stylelint で CSS/SCSS を自動修正
-npm run eslint     # ESLint で JS/TS を自動修正
+pnpm build      # 本番用ビルド（ブロック → 画像生成 → Vite ビルド）
+pnpm lint       # 全リントチェック（format, stylelint, eslint, php）
+pnpm format     # Prettier でフォーマット（PHP, CSS, JS, TS）
+pnpm stylelint  # Stylelint で CSS を自動修正
+pnpm eslint     # ESLint で JS/TS を自動修正
+pnpm php:cs     # PHPCS で WordPress コーディング標準チェック
+pnpm php:cs:fix # PHPCBF で自動修正
 ```
 
 ## データベース操作
 
 ```bash
 # バックアップ
-npm run backup-db      # Linux/Mac (sql/backup-YYYYMMDD.sql に保存)
-npm run backup-db-win  # Windows
+pnpm backup:db      # Linux/Mac (sql/backup-YYYYMMDD.sql に保存)
+pnpm backup:db:win  # Windows
 
 # リストア
-npm run restore-db ./sql/backup-YYYYMMDD.sql
+pnpm import:db ./sql/backup-YYYYMMDD.sql
 ```
 
 ## アーキテクチャ
@@ -58,33 +63,41 @@ npm run restore-db ./sql/backup-YYYYMMDD.sql
 ### Vite とアセット管理の仕組み
 - **開発環境（WP_ENVIRONMENT_TYPE=local）**: Vite 開発サーバー（`http://localhost:3000`）から HMR でアセットを配信
 - **本番環境**: `theme/dist/.vite/manifest.json` を参照してビルド済みアセットを読み込む
-- エントリーポイント: `theme/src/js/main.js`, `theme/src/scss/style.scss`
+- エントリーポイント: `theme/src/assets/js/main.js`, `theme/src/assets/css/index.css`
 - `functions.php` の `vite_get_asset_url()` が環境を判定してアセット URL を解決
 - WordPress 側は `wp_enqueue_script()` / `wp_enqueue_style()` でアセットをキューに登録
+- PHP ファイル変更時は vite-plugin-full-reload でブラウザが自動リロード
 
 ### Tailwind CSS v4 の統合
-- **CSS インポート方式**: `theme/src/css/index.css` で `@import "tailwindcss"` を使用（従来の設定ファイルなし）
+- **CSS インポート方式**: `theme/src/assets/css/index.css` で `@import "tailwindcss"` を使用（従来の設定ファイルなし）
 - **スキャン対象**: `@source "../../../**/*.php"` で PHP テンプレートファイルをスキャン
 - **カスタムトークン**: `@theme` ブロック内で CSS 変数として定義（例: `--color-main-500`）
 - **PostCSS**: `@tailwindcss/postcss` プラグインで処理
-- **Vite**: `@tailwindcss/vite` プラグインで開発サーバーと統合
+- **SCSS は不使用**: Tailwind v4 + CSS ネスティングで十分なため、純粋な CSS のみ
 
 ### WordPress テーマ構造
-- `theme/functions.php`: Vite アセット読み込みロジック、HMR 対応
+- `theme/functions.php`: Vite アセット読み込みロジック、HMR 対応、ブロック登録
 - `theme/index.php`, `theme/front-page.php` 等: テンプレートファイル
-- `theme/src/`: ソースファイル（JS, CSS/SCSS, 画像）
+- `theme/src/`: ソースファイル（JS, CSS, 画像）
 - `theme/dist/`: ビルド出力（Git 管理対象外）
+- `theme/blocks/`: カスタムブロック（pnpm ワークスペース、@wordpress/scripts でビルド）
+
+### カスタムブロック開発
+- `theme/blocks/{block-name}/` に新規ブロックを作成
+- 各ブロックは独立した pnpm ワークスペースパッケージ
+- `@wordpress/scripts` でビルド → `build/` に出力
+- `theme/functions/blocks.php` が `glob()` で自動検出・登録
 
 ### wp-env による環境管理
-- `.wp-env.json` で WordPress コア、PHP バージョン、テーマパス、ポート番号を管理
+- `.wp-env.json` で WordPress コア、PHP バージョン（8.4）、テーマパス、ポート番号を管理
 - 日本語版 WordPress を使用（`https://ja.wordpress.org/latest-ja.zip`）
-- `theme/dist` と `sql` ディレクトリを Docker コンテナにマッピング
+- `theme/dist`、`sql`、`scripts` ディレクトリを Docker コンテナにマッピング
 - デバッグモード有効（`WP_DEBUG`, `SCRIPT_DEBUG`）
 
 ## コーディング規約
 
 ### PHP
-- WordPress コーディング規約に準拠
+- WordPress コーディング規約に準拠（PHPCS で自動チェック）
 - 関数名は `snake_case`、クラス名は `PascalCase`
 - `functions.php` では WordPress フック（`add_action`, `add_filter`）を使用
 - テンプレートファイルは WordPress テンプレート階層に従う
@@ -92,90 +105,34 @@ npm run restore-db ./sql/backup-YYYYMMDD.sql
 ### JavaScript
 - ES Modules を使用（`type="module"`）
 - Vite の HMR を活用
-- `theme/src/js/main.js` がエントリーポイント
-- モジュールは `theme/src/js/modules/` に配置
+- `theme/src/assets/js/main.js` がエントリーポイント
+- モジュールは `theme/src/assets/js/modules/` に配置
 - ESLint ルール: `no-console` はエラー、`simple-import-sort` でインポート順序を強制
 
-### CSS/SCSS
+### CSS
 - Tailwind CSS v4 を優先的に使用
-- カスタムスタイルは `theme/src/scss/style.scss` に記述
-- Tailwind のユーティリティクラスで対応できない場合のみカスタム CSS を記述
-- `theme/src/css/index.css` で Tailwind をインポート
-- 画像ファイルは `theme/src/img/` に配置（SCSS 内で `background-image` 等で指定されたファイルのみ）
+- カスタムスタイルは `theme/src/assets/css/` に CSS ファイルとして記述
+- `index.css` で `@import` して読み込む
+- 画像ファイルは `theme/src/assets/images/` に配置
 
 ### ファイル命名規則
 - PHP テンプレート: WordPress テンプレート階層に従う（`index.php`, `front-page.php`, `single.php` 等）
 - JavaScript: `kebab-case.js`（例: `hello-world.js`）
-- SCSS: `kebab-case.scss`（例: `front-page.scss`）
+- CSS: `kebab-case.css`（例: `front-page.css`）
 - 画像: `kebab-case.png`（例: `hero-image.png`）
 
 ## 開発時の注意事項
 
-### Vite HMR の動作
-- 開発環境（`WP_ENVIRONMENT_TYPE=local`）では自動的に Vite 開発サーバーからアセットを読み込む
-- `functions.php` の `vite_get_asset_url()` が環境を自動判定
-- ファイル変更は自動的にブラウザに反映される（HMR）
-
-### Tailwind CSS の使用
-- PHP テンプレートファイル内のクラス名を自動スキャン
-- `@theme` ブロックでカスタムトークンを定義可能
-- ビルド時に未使用のクラスは自動的に削除される（PurgeCSS 相当）
-
-### ビルドとデプロイ
-- `npm run build` で本番用ビルドを生成
-- `theme/dist/` にビルド済みアセットが出力される
-- `.vite/manifest.json` が生成され、本番環境でアセット URL を解決する際に使用される
-
-### Git 管理
-- `theme/dist/` は Git 管理対象外（`.gitignore` に含まれる）
-- `sql/backup-*.sql` も Git 管理対象外
-- ソースファイル（`theme/src/`）のみをコミット
-
 ### Pre-commit フック（Lefthook）
-- コミット前に自動的に以下を実行:
-  - `npm run format` - Prettier でフォーマット
-  - `npm run stylelint` - Stylelint で CSS/SCSS をチェック・修正
-  - `npm run eslint` - ESLint で JS/TS をチェック・修正
+- コミット前に自動的に以下を並列実行:
+  - `pnpm format` - Prettier でフォーマット
+  - `pnpm stylelint` - Stylelint で CSS をチェック・修正
+  - `pnpm eslint` - ESLint で JS/TS をチェック・修正
+  - `pnpm php:lint` - PHP 構文チェック
+  - `pnpm php:cs:staged` - PHPCS で WordPress コーディング標準チェック
 
-## コード生成時の指針
-
-### 新しい機能を追加する場合
-1. PHP テンプレートファイルを作成・編集（WordPress テンプレート階層に従う）
-2. 必要に応じて `theme/src/js/modules/` に JavaScript モジュールを追加
-3. `theme/src/js/main.js` でモジュールをインポート
-4. Tailwind CSS クラスを使用してスタイリング
-5. カスタムスタイルが必要な場合は `theme/src/scss/style.scss` に追加
-
-### 既存コードを修正する場合
-1. 該当する PHP テンプレートファイルを編集
-2. JavaScript の変更は `theme/src/js/` 内のファイルを編集
-3. スタイルの変更は Tailwind クラスを優先、必要に応じて SCSS を編集
-4. 変更後は自動的に HMR で反映される
-
-### デバッグ
-- WordPress デバッグモードが有効（`WP_DEBUG`, `SCRIPT_DEBUG`）
-- ブラウザの開発者ツールで Vite の HMR ログを確認可能
-- PHP エラーは WordPress のデバッグログに出力される
-
-## トラブルシューティング
-
-### Vite 開発サーバーが起動しない
-- Node.js v22 以上がインストールされているか確認
-- `npm install` で依存関係を再インストール
-- ポート 3000 が使用中でないか確認
-
-### WordPress 環境が起動しない
+### トラブルシューティング
+- Node.js v24 以上、pnpm 10.33.0 がインストールされているか確認
+- `pnpm install` で依存関係を再インストール
 - Docker と Docker Compose が起動しているか確認
-- `npm run wp-env start` でエラーメッセージを確認
-- `npm run destroy` で環境をリセットしてから再起動
-
-### スタイルが反映されない
-- Tailwind CSS のクラス名が PHP テンプレートファイル内に存在するか確認
-- `@source` ディレクティブでスキャン対象に含まれているか確認
-- Vite 開発サーバーが起動しているか確認
-
-### ビルドが失敗する
-- `theme/src/js/main.js` と `theme/src/scss/style.scss` が存在するか確認
-- エラーメッセージを確認して該当ファイルを修正
-- `npm run eslint` と `npm run stylelint` でリントエラーを確認
-
+- `pnpm destroy` で環境をリセットしてから再起動

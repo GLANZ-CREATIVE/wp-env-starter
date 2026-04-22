@@ -1,6 +1,6 @@
 {
   "core": "https://ja.wordpress.org/latest-ja.zip",
-  "phpVersion": "8.1",
+  "phpVersion": "8.4",
   "plugins": [],
   "themes": ["./theme"],
   "port": 8888,
@@ -13,6 +13,7 @@
     "wp-content/themes/theme/dist": "./theme/dist",
     "wp-content/uploads": "./uploads",
     "wp-content/mu-plugins": "./mu-plugins",
-    "sql": "./sql"
+    "sql": "./sql",
+    "scripts": "./scripts"
   }
 }
