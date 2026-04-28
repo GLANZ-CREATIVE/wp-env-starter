@@ -18,6 +18,7 @@
     "backup:db": "pnpm wp-env run cli wp db export ./sql/backup-$(date +%Y%m%d).sql",
     "backup:db:win": "powershell -Command \"pnpm wp-env run cli wp db export ./sql/backup-$(Get-Date -Format 'yyyyMMdd').sql\"",
     "import:db": "pnpm wp-env run cli wp db import",
+    "patterns:flush": "pnpm wp-env run cli wp eval 'wp_get_theme()->delete_pattern_cache();'",
     "setup": "node setup.js && pnpm mailpit:start && pnpm dev",
     "phpmyadmin:start": "docker-compose -f docker-compose.phpmyadmin.yml up -d",
     "phpmyadmin:stop": "docker-compose -f docker-compose.phpmyadmin.yml down",

@@ -1,12 +1,16 @@
 @import url("tailwindcss");
 
+@layer reset, base, theme, components, utilities;
+
 @source "../../../**/*.php";
 @source "../../**/*.php";
 @source "../../../patterns/**/*.php";
 
-:root {
-  --font-base: arial, hiragino kaku gothic pron, hiragino sans, noto sans jp, sans-serif, segoe ui emoji, segoe ui symbol;
-}
+@import "./reset.css" layer(reset);
+@import "./tokens.css";
+@import "./base.css" layer(base);
+@import "./typography.css" layer(base);
+@import "./utilities.css" layer(utilities);
 
 @theme {
   --font-sans: var(--font-base);
@@ -15,25 +19,4 @@
   --color-main-300: #a3c8ff;
   --color-main-400: #7aa0ff;
   --color-main-500: #0a71ef;
-}
-
-@layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
-  }
-
-  body {
-    font-family: var(--font-base);
-    font-size: 1rem;
-    line-height: 1.5;
-    letter-spacing: 0.05em;
-  }
-}
-
-a {
-  @apply no-underline;
 }

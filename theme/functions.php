@@ -15,3 +15,14 @@ require_once get_template_directory() . "/functions/assets.php";
 
 // カスタムブロックの自動登録
 require_once get_template_directory() . "/functions/blocks.php";
+
+add_action("phpmailer_init", function ($phpmailer) {
+  if ("local" !== wp_get_environment_type()) {
+    return;
+  }
+  $phpmailer->isSMTP();
+  $phpmailer->Host = "host.docker.internal";
+  $phpmailer->Port = 1025;
+  $phpmailer->SMTPAuth = false;
+  $phpmailer->SMTPSecure = "";
+});
