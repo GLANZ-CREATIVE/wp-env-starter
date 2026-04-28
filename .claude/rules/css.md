@@ -8,7 +8,7 @@ paths:
 
 ## デザイントークン優先
 
-直値（hex, px など）を書く前に、[base.css](theme/src/assets/css/base.css) の `:root` に対応するトークンがあるか確認する。無ければ直値ではなくトークンを新規追加して参照する。コンポーネント/ページ内だけで使う派生値はローカルカスタムプロパティ（`.hero { --hero-copy-col: 600px; }`）で宣言する。
+直値（hex, px など）を書く前に、[tokens.css](theme/src/assets/css/base/tokens.css) の `:root` に対応するトークンがあるか確認する。無ければ直値ではなくトークンを新規追加して参照する。コンポーネント/ページ内だけで使う派生値はローカルカスタムプロパティ（`.hero { --hero-copy-col: 600px; }`）で宣言する。
 
 ## バリアントは `data-*` 属性
 
@@ -20,7 +20,7 @@ paths:
 
 ## `reset.css` は編集しない
 
-[reset.css](theme/src/assets/css/reset.css) は stylelint 対象外で、挙動を変えたい時は直接編集せず `@layer base` 以降で上書きする。
+[reset.css](theme/src/assets/css/base/reset.css) は stylelint 対象外で、挙動を変えたい時は直接編集せず `@layer base` 以降で上書きする。
 
 ## 既存の `@layer` 運用に合わせる
 

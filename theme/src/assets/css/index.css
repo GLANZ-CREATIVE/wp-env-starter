@@ -1,22 +1,24 @@
-@import url("tailwindcss");
-
+/*
+ * レイヤー: reset < base < theme < components < utilities
+ * 命名:
+ *   c-* … コンポーネント
+ *   u-* … ユーティリティ
+ */
 @layer reset, base, theme, components, utilities;
 
-@source "../../../**/*.php";
-@source "../../**/*.php";
-@source "../../../patterns/**/*.php";
+/* base */
+@import url("./base/reset.css");
+@import url("./base/tokens.css");
+@import url("./base/typography.css");
+@import url("./base/base.css");
 
-@import "./reset.css" layer(reset);
-@import "./tokens.css";
-@import "./base.css" layer(base);
-@import "./typography.css" layer(base);
-@import "./utilities.css" layer(utilities);
+/* components */
 
-@theme {
-  --font-sans: var(--font-base);
-  --color-main-100: #e6f1ff;
-  --color-main-200: #cce0ff;
-  --color-main-300: #a3c8ff;
-  --color-main-400: #7aa0ff;
-  --color-main-500: #0a71ef;
-}
+/* 例: @import url("./components/button.css"); */
+
+/* pages */
+
+/* 例: @import url("./pages/front-page.css"); */
+
+/* utilities */
+@import url("./utilities.css");
