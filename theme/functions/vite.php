@@ -6,71 +6,72 @@
  */
 
 /**
+ * manifest.json の内容をリクエスト内でキャッシュして返す
+ *
+ * @return array|null パース済みマニフェスト。ファイルが存在しない場合は null
+ */
+function vite_get_manifest()
+{
+  static $manifest_content = null;
+  static $loaded = false;
+
+  if ($loaded) {
+    return $manifest_content;
+  }
+
+  $loaded = true;
+  $manifest = get_theme_file_path("/dist/.vite/manifest.json");
+
+  if (file_exists($manifest)) {
+    $manifest_content = json_decode(file_get_contents($manifest), true) ?? null;
+  }
+
+  return $manifest_content;
+}
+
+/**
  * ViteアセットのURLを取得
  *
- * @param string $asset アセットのパス（例: 'assets/scss/style.scss'）
+ * @param string $asset アセットのパス（例: 'assets/css/index.css'）
  * @return string アセットのURL
  */
 function vite_get_asset_url($asset)
 {
-  // 開発環境(local)では必ず Vite dev server を使う
   if (wp_get_environment_type() == "local") {
     return "http://localhost:3000/" . $asset;
   }
 
-  // local 以外（本番など）はビルド済みの manifest を参照する
-  $manifest = get_theme_file_path("/dist/.vite/manifest.json");
-  if (file_exists($manifest)) {
-    $manifest_content = json_decode(file_get_contents($manifest), true);
+  $manifest_content = vite_get_manifest();
 
-    if (isset($manifest_content[$asset])) {
-      return get_theme_file_uri("/dist/" . $manifest_content[$asset]["file"]);
-    }
-
-    if (isset($manifest_content["assets/js/main.js"]["css"][0])) {
-      return get_theme_file_uri("/dist/" . $manifest_content["assets/js/main.js"]["css"][0]);
-    }
-
-    foreach ($manifest_content as $entry) {
-      if (isset($entry["css"][0])) {
-        return get_theme_file_uri("/dist/" . $entry["css"][0]);
-      }
-    }
+  if ($manifest_content !== null && isset($manifest_content[$asset]["file"])) {
+    return get_theme_file_uri("/dist/" . $manifest_content[$asset]["file"]);
   }
 
-  // 最終フォールバック
   return get_theme_file_uri("/dist/" . $asset);
 }
 
 /**
  * 画像アセットのURLを取得
- * JS/CSSからimportされた画像はmanifest.jsonに含まれる
  *
  * @param string $image_path 画像の相対パス（例: 'assets/images/hero.jpg'）
  * @return string 画像のURL
  */
 function vite_get_image_url($image_path)
 {
-  // 開発環境では Vite dev server から配信
   if (wp_get_environment_type() == "local") {
     return "http://localhost:3000/" . $image_path;
   }
 
-  // 本番環境では manifest.json を確認
-  $manifest = get_theme_file_path("/dist/.vite/manifest.json");
-  if (file_exists($manifest)) {
-    $manifest_content = json_decode(file_get_contents($manifest), true);
+  $manifest_content = vite_get_manifest();
 
-    // manifest.json 内を検索
+  if ($manifest_content !== null) {
     foreach ($manifest_content as $key => $entry) {
-      // 画像ファイルの場合
       if (isset($entry["file"]) && strpos($key, $image_path) !== false) {
         return get_theme_file_uri("/dist/" . $entry["file"]);
       }
     }
   }
 
-  // フォールバック: 直接パスを返す（最適化されていない可能性あり）
   return get_theme_file_uri("/dist/" . $image_path);
 }
 

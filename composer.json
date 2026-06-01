@@ -5,6 +5,9 @@
   "license": "proprietary",
   "require": {},
   "require-dev": {
+    "php-stubs/wordpress-stubs": "^6.8",
+    "phpstan/phpstan": "^2.1",
+    "szepeviktor/phpstan-wordpress": "^0.8",
     "wp-coding-standards/wpcs": "^3.1"
   },
   "config": {

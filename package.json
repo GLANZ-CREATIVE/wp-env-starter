@@ -7,8 +7,9 @@
   "scripts": {
     "prepare": "lefthook install",
     "dev": "vite",
-    "build": "pnpm build:blocks && pnpm generate:images && vite build",
-    "build:blocks": "pnpm -r --filter \"./theme/blocks/*\" build",
+    "build": "pnpm build:blocks && vite build",
+    "build:blocks": "pnpm -r --parallel --filter \"./theme/blocks/*\" build",
+    "blocks:new": "node scripts/new-block.js",
     "wp-env": "wp-env",
     "start": "wp-env start && pnpm mailpit:start && pnpm dev",
     "stop": "wp-env stop && pnpm mailpit:stop",
@@ -22,7 +23,6 @@
     "setup": "node setup.js && pnpm mailpit:start && pnpm dev",
     "phpmyadmin:start": "docker-compose -f docker-compose.phpmyadmin.yml up -d",
     "phpmyadmin:stop": "docker-compose -f docker-compose.phpmyadmin.yml down",
-    "generate:images": "node scripts/generate-responsive-images.mjs",
     "format": "prettier --write 'theme/**/*.{css,js,ts,php}'",
     "format:check": "prettier --check 'theme/**/*.{css,js,ts,php}'",
     "stylelint": "stylelint 'theme/src/**/*.css' --fix",
@@ -32,10 +32,11 @@
     "php:lint": "git diff --cached --name-only --diff-filter=ACM | grep '\\.php$' | xargs -I {} sh -c 'php -l {} || exit 1'",
     "php:lint:all": "find theme -name '*.php' -not -path 'theme/dist/*' -not -path 'theme/blocks/*/build/*' -exec php -l {} +",
     "composer": "wp-env run cli composer",
-    "php:cs": "vendor/bin/phpcs",
+    "php:cs": "sh -c '[ ! -x vendor/bin/phpcs ] && echo \"phpcs not found — run: pnpm composer install\" && exit 1; vendor/bin/phpcs'",
     "php:cs:fix": "vendor/bin/phpcbf",
     "php:cs:staged": "sh -c '[ ! -x vendor/bin/phpcs ] && echo \"phpcs not found, skipping (run: pnpm composer install)\" && exit 0; files=$(git diff --cached --name-only --diff-filter=ACM | grep \"\\.php$\" || true); [ -z \"$files\" ] && exit 0; echo \"$files\" | xargs vendor/bin/phpcs'",
-    "lint": "pnpm format:check && pnpm stylelint:check && pnpm eslint:check && pnpm php:lint:all"
+    "php:stan": "sh -c '[ ! -x vendor/bin/phpstan ] && echo \"phpstan not found — run: pnpm composer install\" && exit 1; vendor/bin/phpstan analyse --memory-limit=256M'",
+    "lint": "pnpm format:check && pnpm stylelint:check && pnpm eslint:check && pnpm php:lint:all && pnpm php:cs && pnpm php:stan"
   },
   "devDependencies": {
     "@prettier/plugin-php": "^0.24.0",
@@ -45,7 +46,6 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "lefthook": "^1.12.3",
     "prettier": "^3.6.2",
-    "sharp": "^0.34.5",
     "stylelint": "^16.24.0",
     "stylelint-config-recess-order": "^5.1.1",
     "stylelint-config-standard": "^38.0.0",
@@ -58,8 +58,7 @@
   "pnpm": {
     "onlyBuiltDependencies": [
       "fs-ext-extra-prebuilt",
-      "lefthook",
-      "sharp"
+      "lefthook"
     ]
   },
   "engines": {

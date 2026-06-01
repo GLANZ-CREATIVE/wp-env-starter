@@ -1,0 +1,17 @@
+services:
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: password
+    networks:
+      - wordpress_network
+
+networks:
+  wordpress_network:
+    name: __WP_ENV_NETWORK__
+    external: true
