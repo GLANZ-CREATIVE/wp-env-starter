@@ -7,8 +7,8 @@
   "scripts": {
     "prepare": "lefthook install",
     "dev": "vite",
-    "build": "pnpm build:blocks && pnpm generate:images && vite build",
-    "build:blocks": "pnpm -r --filter \"./theme/blocks/*\" build",
+    "build": "pnpm build:blocks && vite build",
+    "build:blocks": "pnpm -r --parallel --filter \"./theme/blocks/*\" build",
     "wp-env": "wp-env",
     "start": "wp-env start && pnpm mailpit:start && pnpm dev",
     "stop": "wp-env stop && pnpm mailpit:stop",
@@ -22,7 +22,6 @@
     "setup": "node setup.js && pnpm mailpit:start && pnpm dev",
     "phpmyadmin:start": "docker-compose -f docker-compose.phpmyadmin.yml up -d",
     "phpmyadmin:stop": "docker-compose -f docker-compose.phpmyadmin.yml down",
-    "generate:images": "node scripts/generate-responsive-images.mjs",
     "format": "prettier --write 'theme/**/*.{css,js,ts,php}'",
     "format:check": "prettier --check 'theme/**/*.{css,js,ts,php}'",
     "stylelint": "stylelint 'theme/src/**/*.css' --fix",
@@ -45,7 +44,6 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "lefthook": "^1.12.3",
     "prettier": "^3.6.2",
-    "sharp": "^0.34.5",
     "stylelint": "^16.24.0",
     "stylelint-config-recess-order": "^5.1.1",
     "stylelint-config-standard": "^38.0.0",
@@ -58,8 +56,7 @@
   "pnpm": {
     "onlyBuiltDependencies": [
       "fs-ext-extra-prebuilt",
-      "lefthook",
-      "sharp"
+      "lefthook"
     ]
   },
   "engines": {

@@ -137,7 +137,7 @@ define("SCRIPT_DEBUG", false);
 pnpm build
 ```
 
-`build:blocks`（カスタムブロックビルド）→ `generate:images`（レスポンシブ画像生成）→ `vite build` の順に実行され、`theme/dist/` に成果物が出力されます。
+`build:blocks`（カスタムブロックビルド）→ `vite build` の順に実行され、`theme/dist/` に成果物が出力されます。
 
 ### Lint / Format
 
@@ -232,7 +232,7 @@ pnpm import:db ./sql/backup-20260428.sql
 ├── eslint.config.mjs
 ├── lefthook.yml                 # Git hooks
 ├── package.json / pnpm-workspace.yaml
-├── setup.js
+├── setup.js                     # pnpm setup から呼ばれる。wp-env を起動し、phpMyAdmin が接続できるよう docker-compose.phpmyadmin.yml を動的生成して phpMyAdmin コンテナを起動する
 └── vite.config.js
 ```
 
@@ -240,3 +240,6 @@ pnpm import:db ./sql/backup-20260428.sql
 
 - **プラグインで DB の移行をしたときに「theme」というテーマに設定されてしまう**
   CI/CD を通じてデプロイされることを想定しているため、プラグインで DB を移行するとテーマ名が「theme」になります。移行後は管理画面からテーマを再設定してください。
+
+- **テーマフォルダ名を変更した場合**
+  `.wp-env.json` の `themes` と `mappings` のパスは `./theme` にハードコードされています。フォルダ名を変更する場合は両箇所を合わせて変更してください。

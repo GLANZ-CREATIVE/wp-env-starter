@@ -171,9 +171,19 @@
           "name": "6"
         },
         {
+          "slug": "7",
+          "size": "1.75rem",
+          "name": "7"
+        },
+        {
           "slug": "8",
           "size": "2rem",
           "name": "8"
+        },
+        {
+          "slug": "9",
+          "size": "2.25rem",
+          "name": "9"
         },
         {
           "slug": "10",
@@ -184,6 +194,11 @@
           "slug": "12",
           "size": "3rem",
           "name": "12"
+        },
+        {
+          "slug": "14",
+          "size": "3.5rem",
+          "name": "14"
         },
         {
           "slug": "16",

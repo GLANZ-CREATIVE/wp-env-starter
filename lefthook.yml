@@ -2,11 +2,17 @@ pre-commit:
   parallel: true
   commands:
     format:
-      run: pnpm format
+      glob: "theme/**/*.{css,js,ts,php}"
+      run: pnpm exec prettier --write {staged_files}
+      stage_fixed: true
     stylelint:
-      run: pnpm stylelint
+      glob: "theme/src/**/*.css"
+      run: pnpm exec stylelint --fix {staged_files}
+      stage_fixed: true
     eslint:
-      run: pnpm eslint
+      glob: "theme/src/**/*.{js,ts}"
+      run: pnpm exec eslint --fix {staged_files}
+      stage_fixed: true
     php-lint:
       run: pnpm php:lint
     php-cs:
