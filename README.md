@@ -28,7 +28,7 @@ Ref: [https://github.com/Masahiro-web/simple-wp-dev](https://github.com/Masahiro
 - Docker と Docker Compose が起動していること
 - Node.js v24 以上
 - pnpm 10.33.0（`corepack enable` で有効化推奨）
-- Composer（PHPCS を使う場合）
+- Composer（PHPCS / PHPStan を使う場合）
 
 mise 利用時: バージョンが異なる場合は `mise install` で指定版を取得し、`mise shell`（一時）または `mise use -g node@24`（グローバル）で有効化。`node -v` で反映を確認。
 
@@ -149,6 +149,7 @@ pnpm build
 | `pnpm eslint` | ESLint で JS / TS を自動修正 |
 | `pnpm php:cs` | PHPCS（WordPress コーディング標準） |
 | `pnpm php:cs:fix` | PHPCBF で自動修正 |
+| `pnpm php:stan` | PHPStan で静的解析 |
 
 ロジックに関わる変更を push する前に `pnpm lint` を必ず実行してください。
 
@@ -178,7 +179,15 @@ pnpm import:db ./sql/backup-20260428.sql
 - [theme/functions/blocks.php](theme/functions/blocks.php) が `glob()` で自動検出・登録
 - 一括ビルドは `pnpm build:blocks`（`pnpm build` から自動で呼ばれる）
 
-新規ブロックを追加した場合は `pnpm install` を再実行して workspace を更新してください。
+### 新規ブロックの雛形生成
+
+```bash
+pnpm blocks:new <block-name>
+```
+
+`theme/blocks/<block-name>/` 配下に `block.json` / `package.json` / `src/index.js` / `src/edit.js` / `src/save.js` を自動生成します。ブロック名は小文字とハイフンのみ使用できます。
+
+生成後は `pnpm install && pnpm build:blocks` を実行して workspace を更新してください。
 
 ## メール送信（Mailpit）
 
@@ -227,12 +236,13 @@ pnpm import:db ./sql/backup-20260428.sql
 ├── sql/                         # DB バックアップ
 ├── uploads/
 ├── .wp-env.json                 # wp-env 設定
-├── composer.json / phpcs.xml.dist
+├── composer.json / phpcs.xml.dist / phpstan.neon
 ├── docker-compose.mailpit.yml
 ├── eslint.config.mjs
 ├── lefthook.yml                 # Git hooks
 ├── package.json / pnpm-workspace.yaml
-├── setup.js                     # pnpm setup から呼ばれる。wp-env を起動し、phpMyAdmin が接続できるよう docker-compose.phpmyadmin.yml を動的生成して phpMyAdmin コンテナを起動する
+├── docker-compose.phpmyadmin.yml.template  # phpMyAdmin 設定テンプレート
+├── setup.js                     # pnpm setup から呼ばれる。wp-env を起動し、テンプレートからネットワーク名を差し替えた docker-compose.phpmyadmin.yml を生成して phpMyAdmin コンテナを起動する
 └── vite.config.js
 ```
 

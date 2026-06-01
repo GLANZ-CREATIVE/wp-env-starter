@@ -43,20 +43,8 @@ function vite_get_asset_url($asset)
 
   $manifest_content = vite_get_manifest();
 
-  if ($manifest_content !== null) {
-    if (isset($manifest_content[$asset])) {
-      return get_theme_file_uri("/dist/" . $manifest_content[$asset]["file"]);
-    }
-
-    if (isset($manifest_content["assets/js/main.js"]["css"][0])) {
-      return get_theme_file_uri("/dist/" . $manifest_content["assets/js/main.js"]["css"][0]);
-    }
-
-    foreach ($manifest_content as $entry) {
-      if (isset($entry["css"][0])) {
-        return get_theme_file_uri("/dist/" . $entry["css"][0]);
-      }
-    }
+  if ($manifest_content !== null && isset($manifest_content[$asset]["file"])) {
+    return get_theme_file_uri("/dist/" . $manifest_content[$asset]["file"]);
   }
 
   return get_theme_file_uri("/dist/" . $asset);
