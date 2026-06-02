@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "packageManager": "pnpm@10.33.0",
+  "packageManager": "pnpm@11.5.0+sha512.dbfcc4f81cf48597afd4bc391ffdf12c11f1a9fb83a395bfa6b0a2d9cc2fd8ffebafdb1ccbd529632153f793904c2615b7f09fe1a345473fd1c35845172a8eb1",
   "scripts": {
     "prepare": "lefthook install",
     "dev": "vite",
@@ -35,7 +35,7 @@
     "php:cs": "sh -c '[ ! -x vendor/bin/phpcs ] && echo \"phpcs not found — run: pnpm composer install\" && exit 1; vendor/bin/phpcs'",
     "php:cs:fix": "vendor/bin/phpcbf",
     "php:cs:staged": "sh -c '[ ! -x vendor/bin/phpcs ] && echo \"phpcs not found, skipping (run: pnpm composer install)\" && exit 0; files=$(git diff --cached --name-only --diff-filter=ACM | grep \"\\.php$\" || true); [ -z \"$files\" ] && exit 0; echo \"$files\" | xargs vendor/bin/phpcs'",
-    "php:stan": "sh -c '[ ! -x vendor/bin/phpstan ] && echo \"phpstan not found — run: pnpm composer install\" && exit 1; vendor/bin/phpstan analyse --memory-limit=256M'",
+    "php:stan": "sh -c '[ ! -x vendor/bin/phpstan ] && echo \"phpstan not found — run: pnpm composer install\" && exit 1; vendor/bin/phpstan analyse --memory-limit=1G'",
     "lint": "pnpm format:check && pnpm stylelint:check && pnpm eslint:check && pnpm php:lint:all && pnpm php:cs && pnpm php:stan"
   },
   "devDependencies": {

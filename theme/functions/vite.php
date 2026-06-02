@@ -23,6 +23,7 @@ function vite_get_manifest()
   $manifest = get_theme_file_path("/dist/.vite/manifest.json");
 
   if (file_exists($manifest)) {
+    // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- ローカルファイル読み込み
     $manifest_content = json_decode(file_get_contents($manifest), true) ?? null;
   }
 
@@ -37,13 +38,13 @@ function vite_get_manifest()
  */
 function vite_get_asset_url($asset)
 {
-  if (wp_get_environment_type() == "local") {
+  if ("local" === wp_get_environment_type()) {
     return "http://localhost:3000/" . $asset;
   }
 
   $manifest_content = vite_get_manifest();
 
-  if ($manifest_content !== null && isset($manifest_content[$asset]["file"])) {
+  if (null !== $manifest_content && isset($manifest_content[$asset]["file"])) {
     return get_theme_file_uri("/dist/" . $manifest_content[$asset]["file"]);
   }
 
@@ -58,13 +59,13 @@ function vite_get_asset_url($asset)
  */
 function vite_get_image_url($image_path)
 {
-  if (wp_get_environment_type() == "local") {
+  if ("local" === wp_get_environment_type()) {
     return "http://localhost:3000/" . $image_path;
   }
 
   $manifest_content = vite_get_manifest();
 
-  if ($manifest_content !== null) {
+  if (null !== $manifest_content) {
     foreach ($manifest_content as $key => $entry) {
       if (isset($entry["file"]) && strpos($key, $image_path) !== false) {
         return get_theme_file_uri("/dist/" . $entry["file"]);

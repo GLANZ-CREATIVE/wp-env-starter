@@ -3,8 +3,10 @@
 /**
  * カスタムブロックの自動登録
  *
- * theme/blocks/{block-name}/build/block.json を走査し、
+ * Theme/blocks/{block-name}/build/block.json を走査し、
  * 見つかったブロックを自動で register_block_type する。
+ *
+ * @package WPStarter
  */
 
 add_action("init", function () {

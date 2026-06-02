@@ -10,7 +10,7 @@
  */
 function theme_enqueue_assets()
 {
-  if (wp_get_environment_type() == "local") {
+  if ("local" === wp_get_environment_type()) {
     if (!wp_script_is("vite-client", "enqueued")) {
       wp_enqueue_script("vite-client", "http://localhost:3000/@vite/client", [], null, true);
       wp_script_add_data("vite-client", "type", "module");
