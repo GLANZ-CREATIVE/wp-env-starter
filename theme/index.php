@@ -1,3 +1,10 @@
-<?php get_header(); ?>
+<?php
+/**
+ * Default template
+ *
+ * @package WPStarter
+ */
 
-<?php get_footer(); ?>
+get_header(); ?>
+
+<?php get_footer();

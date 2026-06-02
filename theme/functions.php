@@ -2,6 +2,8 @@
 
 /**
  * Theme functions and definitions
+ *
+ * @package WPStarter
  */
 
 // ヘルパー関数を読み込む
@@ -21,8 +23,10 @@ add_action("phpmailer_init", function ($phpmailer) {
     return;
   }
   $phpmailer->isSMTP();
+  // phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- PHPMailer の公開プロパティ
   $phpmailer->Host = "host.docker.internal";
   $phpmailer->Port = 1025;
   $phpmailer->SMTPAuth = false;
   $phpmailer->SMTPSecure = "";
+  // phpcs:enable
 });

@@ -3,12 +3,13 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "packageManager": "pnpm@10.33.0",
+  "packageManager": "pnpm@11.5.0+sha512.dbfcc4f81cf48597afd4bc391ffdf12c11f1a9fb83a395bfa6b0a2d9cc2fd8ffebafdb1ccbd529632153f793904c2615b7f09fe1a345473fd1c35845172a8eb1",
   "scripts": {
     "prepare": "lefthook install",
     "dev": "vite",
-    "build": "pnpm build:blocks && pnpm generate:images && vite build",
-    "build:blocks": "pnpm -r --filter \"./theme/blocks/*\" build",
+    "build": "pnpm build:blocks && vite build",
+    "build:blocks": "pnpm -r --parallel --filter \"./theme/blocks/*\" build",
+    "blocks:new": "node scripts/new-block.js",
     "wp-env": "wp-env",
     "start": "wp-env start && pnpm mailpit:start && pnpm dev",
     "stop": "wp-env stop && pnpm mailpit:stop",
@@ -22,7 +23,6 @@
     "setup": "node setup.js && pnpm mailpit:start && pnpm dev",
     "phpmyadmin:start": "docker-compose -f docker-compose.phpmyadmin.yml up -d",
     "phpmyadmin:stop": "docker-compose -f docker-compose.phpmyadmin.yml down",
-    "generate:images": "node scripts/generate-responsive-images.mjs",
     "format": "prettier --write 'theme/**/*.{css,js,ts,php}'",
     "format:check": "prettier --check 'theme/**/*.{css,js,ts,php}'",
     "stylelint": "stylelint 'theme/src/**/*.css' --fix",
@@ -32,35 +32,28 @@
     "php:lint": "git diff --cached --name-only --diff-filter=ACM | grep '\\.php$' | xargs -I {} sh -c 'php -l {} || exit 1'",
     "php:lint:all": "find theme -name '*.php' -not -path 'theme/dist/*' -not -path 'theme/blocks/*/build/*' -exec php -l {} +",
     "composer": "wp-env run cli composer",
-    "php:cs": "vendor/bin/phpcs",
+    "php:cs": "sh -c '[ ! -x vendor/bin/phpcs ] && echo \"phpcs not found — run: pnpm composer install\" && exit 1; vendor/bin/phpcs'",
     "php:cs:fix": "vendor/bin/phpcbf",
     "php:cs:staged": "sh -c '[ ! -x vendor/bin/phpcs ] && echo \"phpcs not found, skipping (run: pnpm composer install)\" && exit 0; files=$(git diff --cached --name-only --diff-filter=ACM | grep \"\\.php$\" || true); [ -z \"$files\" ] && exit 0; echo \"$files\" | xargs vendor/bin/phpcs'",
-    "lint": "pnpm format:check && pnpm stylelint:check && pnpm eslint:check && pnpm php:lint:all"
+    "php:stan": "sh -c '[ ! -x vendor/bin/phpstan ] && echo \"phpstan not found — run: pnpm composer install\" && exit 1; vendor/bin/phpstan analyse --memory-limit=1G'",
+    "lint": "pnpm format:check && pnpm stylelint:check && pnpm eslint:check && pnpm php:lint:all && pnpm php:cs && pnpm php:stan"
   },
   "devDependencies": {
     "@prettier/plugin-php": "^0.24.0",
-    "@wordpress/env": "^10.35.0",
-    "eslint": "^9.32.0",
+    "@wordpress/env": "^10.39.0",
+    "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-simple-import-sort": "^12.1.1",
-    "lefthook": "^1.12.3",
-    "prettier": "^3.6.2",
-    "sharp": "^0.34.5",
-    "stylelint": "^16.24.0",
+    "lefthook": "^1.13.6",
+    "prettier": "^3.8.3",
+    "stylelint": "^16.26.1",
     "stylelint-config-recess-order": "^5.1.1",
     "stylelint-config-standard": "^38.0.0",
-    "stylelint-order": "^7.0.0",
-    "svgo": "^4.0.0",
-    "vite": "^8.0.13",
+    "stylelint-order": "^7.0.1",
+    "svgo": "^4.0.1",
+    "vite": "^8.0.16",
     "vite-plugin-full-reload": "^1.2.0",
     "vite-plugin-image-optimizer": "^2.0.3"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "fs-ext-extra-prebuilt",
-      "lefthook",
-      "sharp"
-    ]
   },
   "engines": {
     "node": ">=24"

@@ -1,3 +1,10 @@
+<?php
+/**
+ * Header template
+ *
+ * @package WPStarter
+ */
+?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 
@@ -68,8 +75,8 @@ if (is_front_page() || is_home()) {
   $post_obj = get_post();
   if ($post_obj) {
     $slug = $post_obj->post_name;
-    $type = $post_obj->post_type;
-    $body_id = $type . "-" . $slug;
+    $post_type_obj = $post_obj->post_type;
+    $body_id = $post_type_obj . "-" . $slug;
   }
 } elseif (is_post_type_archive()) {
   $pt = get_query_var("post_type");
@@ -78,11 +85,9 @@ if (is_front_page() || is_home()) {
   }
   $body_id = "archive-" . ($pt ? $pt : "post");
 } elseif (is_category() || is_tag() || is_tax()) {
-  $term = get_queried_object();
-  if ($term && !is_wp_error($term)) {
-    if (isset($term->taxonomy) && isset($term->slug)) {
-      $body_id = "term-" . $term->taxonomy . "-" . $term->slug;
-    }
+  $queried_term = get_queried_object();
+  if ($queried_term instanceof WP_Term) {
+    $body_id = "term-" . $queried_term->taxonomy . "-" . $queried_term->slug;
   }
 } elseif (is_search()) {
   $body_id = "search";
@@ -91,7 +96,7 @@ if (is_front_page() || is_home()) {
 }
 ?>
 
-<body data-type="<?php echo wp_get_environment_type(); ?>" id="<?php echo esc_attr($body_id); ?>" <?php body_class(); ?>>
+<body data-type="<?php echo esc_attr(wp_get_environment_type()); ?>" id="<?php echo esc_attr($body_id); ?>" <?php body_class(); ?>>
   <?php wp_body_open(); ?>
 
   <header class="flex justify-between">
@@ -104,9 +109,9 @@ if (is_front_page() || is_home()) {
     </div>
 
     <nav class="[&_ul]:flex" aria-label="メニュー">
-      <?php wp_nav_menu([
-        "theme_location" => "primary",
-        "menu_id" => "primary-menu",
-      ]); ?>
+    <?php wp_nav_menu([
+      "theme_location" => "primary",
+      "menu_id" => "primary-menu",
+    ]); ?>
     </nav>
   </header>

@@ -1,4 +1,11 @@
-<?php get_header(); ?>
+<?php
+/**
+ * Front page template
+ *
+ * @package WPStarter
+ */
+
+get_header(); ?>
 
 <div>
   <h1 class="text-2xl text-main-500">WordPress Starter theme with Vite</h1>
