@@ -1,0 +1,6 @@
+packages:
+  - "theme/blocks/*"
+
+onlyBuiltDependencies:
+  - fs-ext-extra-prebuilt
+  - lefthook

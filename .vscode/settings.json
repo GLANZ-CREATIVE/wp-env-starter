@@ -2,7 +2,7 @@
   "editor.formatOnSave": true,
   "css.validate": false,
   "scss.validate": false,
-  "stylelint.validate": ["css", "scss", "less"],
+  "stylelint.validate": ["css", "scss", "less", "tailwindcss"],
   "files.associations": {
     "*.css": "tailwindcss"
   },

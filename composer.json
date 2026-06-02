@@ -1,0 +1,23 @@
+{
+  "name": "wp-starter/theme-dev",
+  "description": "PHP quality tools (PHPCS / WordPress Coding Standards)",
+  "type": "project",
+  "license": "proprietary",
+  "require": {},
+  "require-dev": {
+    "php-stubs/wordpress-stubs": "^6.8",
+    "phpstan/phpstan": "^2.1",
+    "szepeviktor/phpstan-wordpress": "^2.0",
+    "wp-coding-standards/wpcs": "^3.1"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    },
+    "sort-packages": true
+  },
+  "scripts": {
+    "cs": "phpcs",
+    "cs:fix": "phpcbf"
+  }
+}

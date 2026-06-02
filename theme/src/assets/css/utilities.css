@@ -1,0 +1,62 @@
+@layer utilities {
+  .u-container {
+    width: 100%;
+    max-width: var(--content-width);
+    padding-inline: var(--container-padding-x);
+    margin-inline: auto;
+  }
+
+  .u-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .u-sr-only:focus-visible {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: inherit;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+
+  .u-flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .u-block {
+    display: block;
+  }
+
+  .u-inline-block {
+    display: inline-block;
+  }
+
+  .u-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .u-line-clamp-2 {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .u-break-words {
+    overflow-wrap: anywhere;
+  }
+}

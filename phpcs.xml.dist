@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<ruleset name="WP-Starter">
+  <description>PHPCS（WordPress Coding Standards）— theme 配下</description>
+
+  <file>theme</file>
+
+  <exclude-pattern>theme/dist/*</exclude-pattern>
+  <exclude-pattern>theme/blocks/*/build/*</exclude-pattern>
+
+  <arg name="extensions" value="php"/>
+  <arg value="s"/>
+  <arg name="colors"/>
+
+  <config name="minimum_supported_wp_version" value="6.4"/>
+
+  <!-- リポジトリ方針は 2 スペース。WPCS 既定のタブ必須と衝突するため除外 -->
+  <rule ref="WordPress">
+    <exclude name="Generic.WhiteSpace.DisallowSpaceIndent"/>
+    <exclude name="Generic.WhiteSpace.ScopeIndent"/>
+    <exclude name="Universal.WhiteSpace.PrecisionAlignment"/>
+    <!-- WPCS 既定の演算子前後スペースが Prettier 出力と衝突するため除外 -->
+    <exclude name="WordPress.WhiteSpace.OperatorSpacing"/>
+    <!-- Prettier (@prettier/plugin-php) が <?php 直後に空行を入れるため除外 -->
+    <exclude name="Squiz.Commenting.FileComment.SpacingAfterOpen"/>
+    <!-- 同じく Prettier がファイルコメント後の空行を詰めるため除外 -->
+    <exclude name="Squiz.Commenting.FileComment.SpacingAfterComment"/>
+    <!-- 括弧内スペース（WPCS は ( $x ) 必須だがプロジェクトは ($x) 方針） -->
+    <exclude name="WordPress.WhiteSpace.ControlStructureSpacing"/>
+    <exclude name="PEAR.Functions.FunctionCallSignature.SpaceAfterOpenBracket"/>
+    <exclude name="PEAR.Functions.FunctionCallSignature.SpaceBeforeCloseBracket"/>
+    <exclude name="PEAR.Functions.FunctionCallSignature.Indent"/>
+    <exclude name="PEAR.Functions.FunctionCallSignature.CloseBracketLine"/>
+    <exclude name="PEAR.Functions.FunctionCallSignature.OpeningIndent"/>
+    <exclude name="PEAR.Functions.FunctionCallSignature.ContentAfterOpenBracket"/>
+    <exclude name="PEAR.Functions.FunctionCallSignature.MultipleArguments"/>
+    <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingAfterOpen"/>
+    <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingBeforeClose"/>
+    <exclude name="Generic.WhiteSpace.ArbitraryParenthesesSpacing"/>
+    <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseParenthesis"/>
+    <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterKeyword"/>
+    <!-- PHP は EditorConfig で 4 スペース指定（WPCS 既定と整合） -->
+    <exclude name="Squiz.PHP.EmbeddedPhp.ContentAfterOpen"/>
+    <exclude name="Squiz.PHP.EmbeddedPhp.ContentBeforeEnd"/>
+    <!-- 配列・文字列の表記はプロジェクト方針（short array / 二重引用符）に合わせる -->
+    <exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
+    <exclude name="Squiz.Strings.DoubleQuoteUsage"/>
+    <exclude name="NormalizedArrays.Arrays.ArrayBraceSpacing"/>
+    <exclude name="WordPress.Arrays.ArrayKeySpacingRestrictions"/>
+    <exclude name="WordPress.Arrays.ArrayIndentation"/>
+    <!-- 配列の => 揃え・関数ブレース位置はフォーマッタ任せ -->
+    <exclude name="WordPress.Arrays.MultipleStatementAlignment"/>
+    <exclude name="Generic.Formatting.MultipleStatementAlignment"/>
+    <exclude name="Generic.Functions.OpeningFunctionBraceKernighanRitchie"/>
+    <!-- 日本語句点「。」を終端と認識しないため -->
+    <exclude name="Squiz.Commenting.InlineComment.InvalidEndChar"/>
+    <exclude name="Squiz.Commenting.FunctionComment.ParamCommentFullStop"/>
+    <exclude name="Generic.Commenting.DocComment.ShortNotCapital"/>
+    <!-- Vite manifest 経由のためバージョンクエリ不要 -->
+    <exclude name="WordPress.WP.EnqueuedResourceParameters.MissingVersion"/>
+  </rule>
+</ruleset>

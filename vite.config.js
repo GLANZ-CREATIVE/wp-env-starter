@@ -1,6 +1,6 @@
-import tailwindcss from "@tailwindcss/vite";
 import { resolve } from "path";
 import { defineConfig } from "vite";
+import FullReload from "vite-plugin-full-reload";
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 
 export default defineConfig({
@@ -28,24 +28,17 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, "theme/src/assets/js/main.js"),
-        style: resolve(__dirname, "theme/src/assets/scss/style.scss"),
-      },
-    },
-  },
-  css: {
-    preprocessorOptions: {
-      sass: {
-        api: "modern-compiler",
-      },
-      scss: {
-        api: "modern-compiler",
+        style: resolve(__dirname, "theme/src/assets/css/index.css"),
+        "assets/css/editor.css": resolve(
+          __dirname,
+          "theme/src/assets/css/editor.css",
+        ),
       },
     },
   },
   plugins: [
-    tailwindcss(),
+    FullReload(["theme/**/*.php"], { root: __dirname }),
     ViteImageOptimizer({
-      // ビルド時のみ最適化を実行（開発環境では高速化のためスキップ）
       test: /\.(jpe?g|png|gif|tiff|webp|svg|avif)$/i,
       exclude: undefined,
       include: undefined,

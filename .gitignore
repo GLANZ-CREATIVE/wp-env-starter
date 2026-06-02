@@ -30,3 +30,21 @@ node_modules/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Composer
+/vendor/
+
+# Block build output
+/theme/blocks/*/build/
+
+# Generated responsive images
+/theme/src/assets/images/**/*-w[0-9]*.jpg
+/theme/src/assets/images/**/*-w[0-9]*.jpeg
+/theme/src/assets/images/**/*-w[0-9]*.png
+/theme/src/assets/images/**/*-w[0-9]*.webp
+
+# Generated docker-compose (setup.js が動的に生成)
+docker-compose.phpmyadmin.yml
+
+# mics
+.claude/settings.local.json

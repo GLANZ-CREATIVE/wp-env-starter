@@ -1,6 +1,6 @@
 {
   "core": "https://ja.wordpress.org/latest-ja.zip",
-  "phpVersion": "8.1",
+  "phpVersion": "8.4",
   "plugins": [],
   "themes": ["./theme"],
   "port": 8888,
@@ -12,6 +12,14 @@
   "mappings": {
     "wp-content/themes/theme/dist": "./theme/dist",
     "wp-content/uploads": "./uploads",
-    "sql": "./sql"
+    "wp-content/mu-plugins": "./mu-plugins",
+    "sql": "./sql",
+    "scripts": "./scripts",
+    "composer.json": "./composer.json",
+    "phpcs.xml.dist": "./phpcs.xml.dist",
+    "vendor": "./vendor"
+  },
+  "lifecycleScripts": {
+    "afterStart": "composer install --no-interaction --prefer-dist --quiet 2>/dev/null || true"
   }
 }

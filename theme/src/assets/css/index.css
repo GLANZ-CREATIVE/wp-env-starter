@@ -1,36 +1,24 @@
-@source "../../../**/*.php";
-@source "../../**/*.php";
-@source "../../../patterns/**/*.php";
-@import "tailwindcss";
+/*
+ * レイヤー: reset < base < theme < components < utilities
+ * 命名:
+ *   c-* … コンポーネント
+ *   u-* … ユーティリティ
+ */
+@layer reset, base, theme, components, utilities;
 
-:root {
-  --font-base: arial, hiragino kaku gothic pron, hiragino sans, noto sans jp, sans-serif, segoe ui emoji, segoe ui symbol;
-}
+/* base */
+@import url("./base/reset.css");
+@import url("./base/tokens.css");
+@import url("./base/typography.css");
+@import url("./base/base.css");
 
-@theme {
-  --font-base: var(--font-base);
-  --font-size-base: 1rem;
-  --color-main-100: #e6f1ff;
-  --color-main-200: #cce0ff;
-  --color-main-300: #a3c8ff;
-  --color-main-400: #7aa0ff;
-  --color-main-500: #0a71ef;
-}
+/* components */
 
-@layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
-  }
+/* 例: @import url("./components/button.css"); */
 
-  body {
-    @apply font-base text-base tracking-wide;
-  }
-}
+/* pages */
 
-a {
-  @apply no-underline;
-}
+/* 例: @import url("./pages/front-page.css"); */
+
+/* utilities */
+@import url("./utilities.css");
