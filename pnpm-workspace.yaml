@@ -1,6 +1,11 @@
 packages:
   - "theme/blocks/*"
 
+allowBuilds:
+  fs-ext-extra-prebuilt: set this to true or false
+  lefthook: true
+  sharp: set this to true or false
+
 onlyBuiltDependencies:
   - fs-ext-extra-prebuilt
   - lefthook
