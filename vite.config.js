@@ -1,7 +1,11 @@
+import browserslist from "browserslist";
+import { browserslistToTargets } from "lightningcss";
 import { resolve } from "path";
 import { defineConfig } from "vite";
 import FullReload from "vite-plugin-full-reload";
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
+
+const lightningcssTargets = browserslistToTargets(browserslist());
 
 export default defineConfig({
   root: "theme/src",
@@ -19,10 +23,20 @@ export default defineConfig({
       interval: 1000,
     },
   },
+  css: {
+    transformer: "lightningcss",
+    lightningcss: {
+      targets: lightningcssTargets,
+      drafts: {
+        customMedia: true,
+      },
+    },
+  },
   build: {
     outDir: resolve(__dirname, "theme/dist"),
     emptyOutDir: true,
     manifest: true,
+    cssMinify: "lightningcss",
     // SVGファイルを個別ファイルとして出力するため、インライン化の閾値を0に設定
     assetsInlineLimit: 0,
     rollupOptions: {

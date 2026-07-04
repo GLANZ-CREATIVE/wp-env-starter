@@ -7,8 +7,8 @@
 
 get_header(); ?>
 
-<div>
-  <h1 class="text-2xl text-main-500">WordPress Starter theme with Vite</h1>
+<div class="front-page-hero u-content">
+  <h1 class="front-page-hero__title">WordPress Starter theme with Vite</h1>
 </div>
 
 <?php get_footer(); ?>
