@@ -3,64 +3,15 @@
     /* Layout */
     --content-width: calc(1200px + var(--container-padding-x) * 2);
     --container-padding-x: 24px;
-    --header-block-size: 80px;
 
-    /* Font */
+    /* Typography */
     --font-base: arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
-
-    /* Font Size */
-    --font-size-xs: 0.75rem;
-    --font-size-sm: 0.875rem;
-    --font-size-md: 0.9375rem;
     --font-size-base: 1rem;
-    --font-size-lg: 1.125rem;
-
-    /* Letter Spacing */
     --letter-spacing-base: 0.05em;
 
     /* Color */
     --color-white: #fff;
-    --color-gray-10: #fbfbfb;
-    --color-gray-50: #f0f0f0;
-    --color-gray-100: #ddd;
-    --color-gray-200: #ccc;
-    --color-gray-300: #aaa;
-    --color-gray-400: #999;
-    --color-gray-500: #777;
-    --color-gray-600: #555;
-    --color-gray-700: #333;
-    --color-gray-800: #202020;
-    --color-gray-900: #101010;
-    --color-main-100: #e6f1ff;
-    --color-main-200: #cce0ff;
-    --color-main-300: #a3c8ff;
-    --color-main-400: #7aa0ff;
-    --color-main-500: #0a71ef;
+    --color-black: #000;
     --color-ring: #2563eb;
-    --color-destructive: oklch(50% 0.22 18deg);
-
-    /* Shadow */
-    --shadow: 0 4px 12px 0 rgb(0 0 0 / 10%);
-    --shadow-md: 0 4px 12px 0 rgb(0 0 0 / 15%);
-    --shadow-lg: 0 4px 12px 0 rgb(0 0 0 / 20%);
-
-    /* Border Radius */
-    --rounded-full: calc(infinity * 1px);
-
-    /* Motion duration */
-    --duration: 0.25s;
-    --duration-sm: calc(var(--duration) - 0.05s);
-    --duration-md: calc(var(--duration) + 0.05s);
-    --duration-lg: calc(var(--duration) + 0.1s);
-
-    /* Z Index */
-    --z-index-header: 80;
-    --z-index-mobile-menu: calc(var(--z-index-header) + 10);
-  }
-
-  @media (width <= 992px) {
-    :root {
-      --header-block-size: 68px;
-    }
   }
 }

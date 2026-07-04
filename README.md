@@ -103,7 +103,7 @@ define("SCRIPT_DEBUG", false);
 
 - **エントリポイント**
   - フロント: `theme/src/assets/js/main.js`、`theme/src/assets/css/index.css`
-  - ブロックエディタ iframe: `theme/src/assets/css/editor.css`（tokens + 本文タイポのみ。`base.css` は含めない）
+  - ブロックエディタ iframe: `theme/src/assets/css/editor.css`（tokens + base.css）
 - **CSS 構成**: 素の CSS + ネスティング。レイヤー順は `reset → base → theme → components → utilities`
   - トークンは [tokens.css](theme/src/assets/css/base/tokens.css) の `:root`（`@layer theme`）に集約
   - 命名規則: コンポーネント `c-*` / ユーティリティ `u-*`
