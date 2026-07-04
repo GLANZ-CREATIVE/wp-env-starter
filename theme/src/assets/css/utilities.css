@@ -1,8 +1,6 @@
 @layer utilities {
-  .u-container {
-    width: 100%;
-    max-width: var(--content-width);
-    padding-inline: var(--container-padding-x);
+  .u-content {
+    width: min(100% - var(--layout-gutter-inline) * 2, var(--layout-content));
     margin-inline: auto;
   }
 

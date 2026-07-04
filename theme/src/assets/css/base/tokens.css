@@ -1,8 +1,8 @@
 @layer theme {
   :root {
     /* Layout */
-    --content-width: calc(1200px + var(--container-padding-x) * 2);
-    --container-padding-x: 24px;
+    --layout-content: 1000px;
+    --layout-gutter-inline: 24px;
 
     /* Typography */
     --font-base: arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
