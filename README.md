@@ -214,8 +214,7 @@ pnpm blocks:new <block-name>
 │   │       │   ├── base/
 │   │       │   │   ├── reset.css      # kiso.css ベース（編集不可）
 │   │       │   │   ├── tokens.css     # デザイントークン（:root）
-│   │       │   │   ├── base.css       # html/body/リンク等
-│   │       │   │   └── typography.css # 本文・コアブロック共通
+│   │       │   │   └── base.css       # html/body/本文タイポ/リンク等
 │   │       │   ├── components/        # c-* コンポーネント（任意）
 │   │       │   ├── pages/             # ページ固有スタイル（任意）
 │   │       │   ├── index.css          # フロント用エントリ

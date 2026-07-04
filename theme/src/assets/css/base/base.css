@@ -14,19 +14,26 @@
       scrollbar-gutter: stable;
     }
 
-    body {
+    :is(body, .editor-styles-wrapper, .editor-styles-wrapper :where(.is-root-container)) {
       font-family: var(--font-base);
       font-size: var(--font-size-base);
       line-height: 1.8;
       color: var(--color-gray-800);
       letter-spacing: var(--letter-spacing-base);
+    }
+
+    body {
       background: var(--color-white);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
-    p {
-      color: inherit;
+    :is(h1, h2, h3, h4, h5, h6) {
+      text-wrap: balance;
+    }
+
+    :is(h1, h2, h3, h4, h5, h6):first-child {
+      margin-block-start: 0;
     }
 
     a {
