@@ -1,15 +1,16 @@
 <?php
+
 /**
  * Footer template
  *
  * @package WPStarter
  */
 ?>
-  <footer class="py-10 text-center">
+<footer>
     <p>&copy; <?php echo esc_html(gmdate("Y")); ?> <?php bloginfo("name"); ?></p>
-  </footer>
+</footer>
 
-  <?php wp_footer(); ?>
-  </body>
+<?php wp_footer(); ?>
+</body>
 
-  </html>
+</html>

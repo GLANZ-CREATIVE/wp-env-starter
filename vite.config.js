@@ -21,8 +21,8 @@ export default defineConfig({
       host: "localhost",
     },
     watch: {
-      usePolling: false,
-      interval: 1000,
+      usePolling: true,
+      interval: 300,
     },
   },
   css: {
