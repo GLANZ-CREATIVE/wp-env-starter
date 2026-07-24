@@ -27,7 +27,7 @@ pnpm start     # WordPress + Vite + Mailpit をまとめて起動
 - Docker（起動しておく）
 - Node.js v24 以上 / pnpm 11+
 
-> Node のバージョンが古い場合は `mise use -g node@24` などで切り替えてください。
+> Node のバージョンが古い場合は [`mise`](https://mise.jdx.dev/getting-started.html) で `mise use -g node@24` などと切り替えてください。
 
 ## よく使うコマンド
 
