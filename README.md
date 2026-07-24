@@ -6,22 +6,24 @@ Ref: [https://github.com/Masahiro-web/simple-wp-dev](https://github.com/Masahiro
 
 **目次**
 
-- [前提条件](#前提条件)
-- [セットアップ](#セットアップ)
-- [環境設定](#環境設定)
-  - [開発環境](#開発環境)
-  - [本番環境](#本番環境)
-  - [アセット管理](#アセット管理)
-- [主な pnpm コマンド](#主な-pnpm-コマンド)
-  - [起動・停止](#起動停止)
-  - [ビルド](#ビルド)
-  - [Lint / Format](#lint--format)
-  - [データベースのバックアップ](#データベースのバックアップ)
-  - [データベースのリストア](#データベースのリストア)
-- [カスタムブロック](#カスタムブロック)
-- [メール送信（Mailpit）](#メール送信mailpit)
-- [ディレクトリ構造](#ディレクトリ構造)
-- [トラブルシューティング](#トラブルシューティング)
+- [WordPress + Vite + Docker 開発環境](#wordpress--vite--docker-開発環境)
+  - [前提条件](#前提条件)
+  - [セットアップ](#セットアップ)
+  - [環境設定](#環境設定)
+    - [開発環境](#開発環境)
+    - [本番環境](#本番環境)
+    - [アセット管理](#アセット管理)
+  - [主な pnpm コマンド](#主な-pnpm-コマンド)
+    - [起動・停止](#起動停止)
+    - [ビルド](#ビルド)
+    - [Lint / Format](#lint--format)
+    - [データベースのバックアップ](#データベースのバックアップ)
+    - [データベースのリストア](#データベースのリストア)
+  - [カスタムブロック](#カスタムブロック)
+    - [新規ブロックの雛形生成](#新規ブロックの雛形生成)
+  - [メール送信（Mailpit）](#メール送信mailpit)
+  - [ディレクトリ構造](#ディレクトリ構造)
+  - [トラブルシューティング](#トラブルシューティング)
 
 ## 前提条件
 
@@ -46,12 +48,6 @@ mise 利用時: バージョンが異なる場合は `mise install` で指定版
 
    ```bash
    pnpm start
-   ```
-
-   phpMyAdmin も同時に起動する場合:
-
-   ```bash
-   pnpm setup
    ```
 
    個別起動:
@@ -120,16 +116,14 @@ define("SCRIPT_DEBUG", false);
 
 ### 起動・停止
 
-| コマンド | 説明 |
-| --- | --- |
-| `pnpm start` | WordPress + Vite + Mailpit を同時起動 |
-| `pnpm setup` | 上記に加えて phpMyAdmin も起動 |
-| `pnpm wp-env start` | WordPress（Docker）のみ起動 |
-| `pnpm dev` | Vite 開発サーバーのみ起動 |
-| `pnpm stop` | WordPress と Mailpit を停止 |
-| `pnpm destroy` | WordPress 環境を完全削除（データも消える） |
-| `pnpm mailpit:start` / `pnpm mailpit:stop` | Mailpit 単体の起動 / 停止 |
-| `pnpm phpmyadmin:start` / `pnpm phpmyadmin:stop` | phpMyAdmin 単体の起動 / 停止 |
+| コマンド                                   | 説明                                       |
+| ------------------------------------------ | ------------------------------------------ |
+| `pnpm start`                               | WordPress + Vite + Mailpit を同時起動      |
+| `pnpm wp-env start`                        | WordPress（Docker）のみ起動                |
+| `pnpm dev`                                 | Vite 開発サーバーのみ起動                  |
+| `pnpm stop`                                | WordPress と Mailpit を停止                |
+| `pnpm destroy`                             | WordPress 環境を完全削除（データも消える） |
+| `pnpm mailpit:start` / `pnpm mailpit:stop` | Mailpit 単体の起動 / 停止                  |
 
 ### ビルド
 
@@ -141,15 +135,12 @@ pnpm build
 
 ### Lint / Format
 
-| コマンド | 説明 |
-| --- | --- |
-| `pnpm lint` | format / stylelint / eslint / php lint をまとめて実行 |
-| `pnpm format` | Prettier で整形（PHP / CSS / JS / TS） |
-| `pnpm stylelint` | Stylelint で CSS を自動修正 |
-| `pnpm eslint` | ESLint で JS / TS を自動修正 |
-| `pnpm php:cs` | PHPCS（WordPress コーディング標準） |
-| `pnpm php:cs:fix` | PHPCBF で自動修正 |
-| `pnpm php:stan` | PHPStan で静的解析 |
+| コマンド         | 説明                                                  |
+| ---------------- | ----------------------------------------------------- |
+| `pnpm lint`      | format / stylelint / eslint / php lint をまとめて実行 |
+| `pnpm format`    | Prettier で整形（PHP / CSS / JS / TS）                |
+| `pnpm stylelint` | Stylelint で CSS を自動修正                           |
+| `pnpm eslint`    | ESLint で JS / TS を自動修正                          |
 
 ロジックに関わる変更を push する前に `pnpm lint` を必ず実行してください。
 
@@ -193,7 +184,7 @@ pnpm blocks:new <block-name>
 
 - Mailpit UI: `http://localhost:8025`
 - SMTP: `localhost:1025`（コンテナ内からは `host.docker.internal:1025`）
-- `pnpm start` / `pnpm setup` で自動起動、`pnpm stop` で停止
+- `pnpm start` で自動起動、`pnpm stop` で停止
 - テスト送信: WordPress 管理画面のテストメール、または `pnpm wp-env run cli wp mail test`
 
 ## ディレクトリ構造
@@ -235,13 +226,10 @@ pnpm blocks:new <block-name>
 ├── sql/                         # DB バックアップ
 ├── uploads/
 ├── .wp-env.json                 # wp-env 設定
-├── composer.json / phpcs.xml.dist / phpstan.neon
 ├── docker-compose.mailpit.yml
 ├── eslint.config.mjs
 ├── lefthook.yml                 # Git hooks
 ├── package.json / pnpm-workspace.yaml
-├── docker-compose.phpmyadmin.yml.template  # phpMyAdmin 設定テンプレート
-├── setup.js                     # pnpm setup から呼ばれる。wp-env を起動し、テンプレートからネットワーク名を差し替えた docker-compose.phpmyadmin.yml を生成して phpMyAdmin コンテナを起動する
 └── vite.config.js
 ```
 

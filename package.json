@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "packageManager": "pnpm@11.5.0+sha512.dbfcc4f81cf48597afd4bc391ffdf12c11f1a9fb83a395bfa6b0a2d9cc2fd8ffebafdb1ccbd529632153f793904c2615b7f09fe1a345473fd1c35845172a8eb1",
+  "packageManager": "pnpm@11.13.1",
   "scripts": {
     "prepare": "lefthook install",
     "dev": "vite",
@@ -20,9 +20,6 @@
     "backup:db:win": "powershell -Command \"pnpm wp-env run cli wp db export ./sql/backup-$(Get-Date -Format 'yyyyMMdd').sql\"",
     "import:db": "pnpm wp-env run cli wp db import",
     "patterns:flush": "pnpm wp-env run cli wp eval 'wp_get_theme()->delete_pattern_cache();'",
-    "setup": "node setup.js && pnpm mailpit:start && pnpm dev",
-    "phpmyadmin:start": "docker-compose -f docker-compose.phpmyadmin.yml up -d",
-    "phpmyadmin:stop": "docker-compose -f docker-compose.phpmyadmin.yml down",
     "format": "prettier --write 'theme/**/*.{css,js,ts,php}'",
     "format:check": "prettier --check 'theme/**/*.{css,js,ts,php}'",
     "stylelint": "stylelint 'theme/src/**/*.css' --fix",
@@ -31,12 +28,7 @@
     "eslint:check": "eslint 'theme/src/**/*.{js,ts}'",
     "php:lint": "git diff --cached --name-only --diff-filter=ACM | grep '\\.php$' | xargs -I {} sh -c 'php -l {} || exit 1'",
     "php:lint:all": "find theme -name '*.php' -not -path 'theme/dist/*' -not -path 'theme/blocks/*/build/*' -exec php -l {} +",
-    "composer": "wp-env run cli composer",
-    "php:cs": "sh -c '[ ! -x vendor/bin/phpcs ] && echo \"phpcs not found — run: pnpm composer install\" && exit 1; vendor/bin/phpcs'",
-    "php:cs:fix": "vendor/bin/phpcbf",
-    "php:cs:staged": "sh -c '[ ! -x vendor/bin/phpcs ] && echo \"phpcs not found, skipping (run: pnpm composer install)\" && exit 0; files=$(git diff --cached --name-only --diff-filter=ACM | grep \"\\.php$\" || true); [ -z \"$files\" ] && exit 0; echo \"$files\" | xargs vendor/bin/phpcs'",
-    "php:stan": "sh -c '[ ! -x vendor/bin/phpstan ] && echo \"phpstan not found — run: pnpm composer install\" && exit 1; vendor/bin/phpstan analyse --memory-limit=1G'",
-    "lint": "pnpm format:check && pnpm stylelint:check && pnpm eslint:check && pnpm php:lint:all && pnpm php:cs && pnpm php:stan"
+    "lint": "pnpm format:check && pnpm stylelint:check && pnpm eslint:check && pnpm php:lint:all"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",
@@ -64,5 +56,9 @@
   "engines": {
     "node": ">=24"
   },
-  "browserslist": ["> 0.5%", "last 2 versions", "not dead"]
+  "browserslist": [
+    "> 0.5%",
+    "last 2 versions",
+    "not dead"
+  ]
 }

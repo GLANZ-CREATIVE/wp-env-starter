@@ -8,9 +8,6 @@
 # WordPress + Vite 開発サーバーを同時起動
 pnpm start
 
-# phpMyAdmin も含めて起動
-pnpm setup
-
 # 個別起動
 pnpm wp-env start  # WordPress のみ
 pnpm dev           # Vite のみ
@@ -33,12 +30,10 @@ pnpm destroy  # 環境を完全削除（データも削除される）
 
 ```bash
 pnpm build      # 本番用ビルド（ブロック → 画像生成 → Vite ビルド）
-pnpm lint       # 全リントチェック（format, stylelint, eslint, php）
+pnpm lint       # 全リントチェック（format, stylelint, eslint, php lint）
 pnpm format     # Prettier でフォーマット（PHP, CSS, JS, TS）
 pnpm stylelint  # Stylelint で CSS を自動修正
 pnpm eslint     # ESLint で JS/TS を自動修正
-pnpm php:cs     # PHPCS で WordPress コーディング標準チェック
-pnpm php:cs:fix # PHPCBF で自動修正
 ```
 
 ## データベース操作
