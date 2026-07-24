@@ -41,8 +41,8 @@ pnpm import:db ./sql/backup-YYYYMMDD.sql
 
 ```bash
 pnpm blocks:new <name>   # theme/blocks/<name>/ に生成
-pnpm build:blocks        # theme/blocks/build/ にビルド
-pnpm start:blocks        # watch ビルド
+pnpm blocks:build        # theme/blocks/build/ にビルド
+pnpm blocks:start        # watch ビルド
 ```
 
 `theme/functions/blocks.php` が `build/*/block.json` を走査して自動登録する。

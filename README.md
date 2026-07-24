@@ -27,7 +27,7 @@ Docker、Vite、wp-env を使用した WordPress テーマのローカル開発�
 
 - Docker が起動していること
 - Node.js v24 以上
-- pnpm 10.33.0
+- pnpm 11.17.0
 
 mise 利用時: バージョンが異なる場合は `mise install` で指定版を取得し、`mise shell`（一時）または `mise use -g node@24`（グローバル）で有効化。`node -v` で反映を確認。
 
@@ -128,7 +128,7 @@ define("SCRIPT_DEBUG", false);
 pnpm build
 ```
 
-`build:blocks`（カスタムブロックビルド）→ `vite build` の順に実行され、`theme/dist/` に成果物が出力されます。
+`blocks:build`（カスタムブロックビルド）→ `vite build` の順に実行され、`theme/dist/` に成果物が出力されます。
 
 ### Lint / Format
 
@@ -165,7 +165,7 @@ pnpm import:db ./sql/backup-20260428.sql
 
 - 各ブロックは `@wordpress/scripts` でビルドされ、`build/` に出力
 - [theme/functions/blocks.php](theme/functions/blocks.php) が `glob()` で自動検出・登録
-- 一括ビルドは `pnpm build:blocks`（`pnpm build` から自動で呼ばれる）
+- 一括ビルドは `pnpm blocks:build`（`pnpm build` から自動で呼ばれる）
 
 ### 新規ブロックの雛形生成
 
@@ -175,7 +175,7 @@ pnpm blocks:new <block-name>
 
 `theme/blocks/<block-name>/` 配下に `block.json` / `package.json` / `src/index.js` / `src/edit.js` / `src/save.js` を自動生成します。ブロック名は小文字とハイフンのみ使用できます。
 
-生成後は `pnpm install && pnpm build:blocks` を実行して workspace を更新してください。
+生成後は `pnpm install && pnpm blocks:build` を実行して workspace を更新してください。
 
 ## メール送信（Mailpit）
 
