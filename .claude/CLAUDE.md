@@ -1,1 +1,0 @@
-/Users/yamato_handai/ghq/github.com/GLANZ-CREATIVE/wp-env-starter/AGENTS.md

@@ -1,8 +1,0 @@
-/*
- * ブロックエディタ iframe 専用（tokens + 本文タイポのみ）
- * base.css（html/body 固定等）は含めない
- */
-@layer reset, base, theme, components, utilities;
-
-@import url("./base/tokens.css");
-@import url("./base/typography.css");

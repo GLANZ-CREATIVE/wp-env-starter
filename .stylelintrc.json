@@ -9,9 +9,5 @@
     "no-invalid-position-at-import-rule": null,
     "import-notation": null
   },
-  "ignoreFiles": [
-    "theme/dist/**/*.css",
-    "theme/style.css",
-    "theme/src/assets/css/base/reset.css"
-  ]
+  "ignoreFiles": ["theme/dist/**/*.css", "theme/style.css", "theme/**/reset.css"]
 }

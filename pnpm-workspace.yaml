@@ -1,12 +1,33 @@
-packages:
-  - "theme/blocks/*"
-
 allowBuilds:
+  "@parcel/watcher": true
+  core-js: false
+  core-js-pure: false
   fs-ext-extra-prebuilt: true
   lefthook: true
   sharp: true
+  unrs-resolver: true
 
 onlyBuiltDependencies:
+  - "@parcel/watcher"
   - fs-ext-extra-prebuilt
   - lefthook
   - sharp
+  - unrs-resolver
+
+# @wordpress/scripts / @wordpress/env の間接依存（すべて devDependencies）に
+# 残る既知脆弱性を patched 版へ強制更新する。上流が更新されたら削除してよい。
+# 値はメジャー据え置きの範囲指定で、ビルドツールの破壊を避ける。
+# メジャー跨ぎが必要なもの（webpack-dev-server 4→5, uuid 8→11, svgo 3→4）は
+# 破壊リスクが高く該当は moderate 以下のため、上流更新を待つ方針で除外。
+overrides:
+  minimatch: ">=3.1.4"
+  serialize-javascript: ">=7.0.5"
+  linkify-it: ">=5.0.2"
+  adm-zip: ">=0.6.0"
+  fast-xml-parser: ">=5.10.1"
+  markdown-it: ">=14.1.2"
+  "@opentelemetry/core": ">=2.8.0"
+  body-parser@1: ">=1.20.6"
+  brace-expansion@1: ">=1.1.16"
+  brace-expansion@2: ">=2.1.2"
+  fast-uri@3: ">=3.1.4"

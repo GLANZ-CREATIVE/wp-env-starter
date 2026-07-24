@@ -99,7 +99,7 @@ if (is_front_page() || is_home()) {
 <body data-type="<?php echo esc_attr(wp_get_environment_type()); ?>" id="<?php echo esc_attr($body_id); ?>" <?php body_class(); ?>>
   <?php wp_body_open(); ?>
 
-  <header class="flex justify-between">
+  <header>
     <div>
       <?php if (is_front_page() && is_home()): ?>
         <h1><a href="<?php echo esc_url(home_url("/")); ?>"><?php bloginfo("name"); ?></a></h1>
@@ -107,11 +107,4 @@ if (is_front_page() || is_home()) {
         <p><a href="<?php echo esc_url(home_url("/")); ?>"><?php bloginfo("name"); ?></a></p>
       <?php endif; ?>
     </div>
-
-    <nav class="[&_ul]:flex" aria-label="メニュー">
-    <?php wp_nav_menu([
-      "theme_location" => "primary",
-      "menu_id" => "primary-menu",
-    ]); ?>
-    </nav>
   </header>

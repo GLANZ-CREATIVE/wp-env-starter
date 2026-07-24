@@ -35,7 +35,9 @@ Thumbs.db
 /vendor/
 
 # Block build output
-/theme/blocks/*/build/
+/theme/blocks/build/
+# create-block --no-plugin が blocks/ 直下に生成する隔離用 node_modules
+/theme/blocks/node_modules/
 
 # Generated responsive images
 /theme/src/assets/images/**/*-w[0-9]*.jpg

@@ -1,0 +1,10 @@
+.title {
+  display: block;
+  padding-inline: 1em;
+  color: var(--color-white);
+  background-color: color-mix(in srgb, var(--color-black) 90%, transparent);
+}
+
+.image {
+  max-width: 400px;
+}

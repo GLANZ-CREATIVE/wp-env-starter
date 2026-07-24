@@ -3,7 +3,7 @@
 /**
  * カスタムブロックの自動登録
  *
- * Theme/blocks/{block-name}/build/block.json を走査し、
+ * theme/blocks/build/{block-name}/block.json を走査し、
  * 見つかったブロックを自動で register_block_type する。
  *
  * @package WPStarter
@@ -11,7 +11,7 @@
 
 add_action("init", function () {
   $blocks_dir = get_theme_file_path("/blocks");
-  $block_jsons = glob($blocks_dir . "/*/build/block.json");
+  $block_jsons = glob($blocks_dir . "/build/*/block.json");
 
   if (!$block_jsons) {
     return;

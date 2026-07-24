@@ -1,20 +1,29 @@
 {
   "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "file",
   "css.validate": false,
   "scss.validate": false,
   "stylelint.validate": ["css", "scss", "less", "tailwindcss"],
   "files.associations": {
-    "*.css": "tailwindcss"
+    "*.css": "css"
   },
   "tailwindCSS.includeLanguages": {
     "css": "css",
     "php": "html"
   },
   "editor.codeActionsOnSave": {
-    "source.fixAll.stylelint": "explicit",
-    "source.fixAll.eslint": "explicit"
+    "source.fixAll.stylelint": "always",
+    "source.fixAll.eslint": "always"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[css]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[tailwindcss]": {
+    "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[javascript]": {
@@ -22,8 +31,8 @@
   },
   "[php]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
   },
-  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "js/ts.preferences.importModuleSpecifier": "non-relative",
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"]
 }

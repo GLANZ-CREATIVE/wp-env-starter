@@ -13,13 +13,6 @@
     "wp-content/themes/theme/dist": "./theme/dist",
     "wp-content/uploads": "./uploads",
     "wp-content/mu-plugins": "./mu-plugins",
-    "sql": "./sql",
-    "scripts": "./scripts",
-    "composer.json": "./composer.json",
-    "phpcs.xml.dist": "./phpcs.xml.dist",
-    "vendor": "./vendor"
-  },
-  "lifecycleScripts": {
-    "afterStart": "composer install --no-interaction --prefer-dist --quiet 2>/dev/null || true"
+    "sql": "./sql"
   }
 }
