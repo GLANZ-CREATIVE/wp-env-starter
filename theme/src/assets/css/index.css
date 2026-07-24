@@ -1,11 +1,7 @@
 /*
- * レイヤー: reset < theme < utilities
- * 命名: u-* … ユーティリティ
+ * レイヤー: reset < theme
  */
-@layer reset, theme, utilities;
+@layer reset, theme;
 
-@import url("./base/breakpoints.css");
 @import url("./base/reset.css");
 @import url("./base/theme.css");
-@import url("./pages/front-page.css") layer(theme);
-@import url("./utilities.css");

@@ -1,6 +1,0 @@
-/*
- * ブロックエディタ iframe 専用（theme のみ）
- */
-@layer reset, theme, utilities;
-
-@import url("./base/theme.css");

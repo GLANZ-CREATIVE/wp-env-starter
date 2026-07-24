@@ -1,59 +1,32 @@
 @layer theme {
   :root {
-    /* Layout */
     --layout-content: 1000px;
     --layout-gutter-inline: 24px;
-
-    /* Typography */
     --font-base: arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
     --font-size-base: 1rem;
     --letter-spacing-base: 0.05em;
-
-    /* Color */
     --color-white: #fff;
     --color-black: #000;
     --color-ring: #2563eb;
   }
 
-  *,
-  ::before,
-  ::after {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-    border-color: currentcolor;
-  }
-
   html {
     overflow-x: clip;
-    scrollbar-gutter: stable;
   }
 
-  :is(body, .editor-styles-wrapper, .editor-styles-wrapper :where(.is-root-container)) {
+  body {
     font-family: var(--font-base);
     font-size: var(--font-size-base);
     line-height: 1.8;
     color: var(--color-black);
     letter-spacing: var(--letter-spacing-base);
-  }
-
-  body {
     background: var(--color-white);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  :is(h1, h2, h3, h4, h5, h6) {
-    text-wrap: balance;
-  }
-
-  :is(h1, h2, h3, h4, h5, h6):first-child {
-    margin-block-start: 0;
-  }
-
   a {
     text-decoration: none;
-    text-underline-offset: 0.15em;
   }
 
   .wp-site-blocks {

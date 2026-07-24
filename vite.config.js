@@ -43,10 +43,6 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, "theme/src/assets/js/main.js"),
         style: resolve(__dirname, "theme/src/assets/css/index.css"),
-        "assets/css/editor.css": resolve(
-          __dirname,
-          "theme/src/assets/css/editor.css",
-        ),
       },
     },
   },

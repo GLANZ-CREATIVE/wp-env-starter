@@ -22,19 +22,3 @@ function theme_enqueue_assets()
   wp_script_add_data("theme-script", "type", "module");
 }
 add_action("wp_enqueue_scripts", "theme_enqueue_assets");
-
-/**
- * ブロックエディタ iframe 用のスタイル（tokens + 本文タイポ）を読み込む
- *
- * フロント本体ではなく editor.css のみを当てることで、
- * エディタの UI に影響を与えずに本文プレビューだけを整える。
- */
-function theme_enqueue_block_editor_assets_iframe()
-{
-  if (!is_admin()) {
-    return;
-  }
-
-  wp_enqueue_style("theme-editor-iframe", vite_get_asset_url("assets/css/editor.css"), [], null);
-}
-add_action("enqueue_block_assets", "theme_enqueue_block_editor_assets_iframe");

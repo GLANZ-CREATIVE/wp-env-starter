@@ -1,6 +1,6 @@
 # WordPress + Vite + Docker 開発環境
 
-Docker、Vite、wp-env を使用した WordPress テーマのローカル開発環境。素の CSS（`@layer` ベース）、HMR、カスタムブロック（pnpm workspace）、ブロックエディタ用スタイルに対応しています。
+Docker、Vite、wp-env を使用した WordPress テーマのローカル開発環境。素の CSS（`@layer` ベース）、HMR、カスタムブロック（pnpm workspace）に対応しています。
 
 **目次**
 
@@ -96,10 +96,9 @@ define("SCRIPT_DEBUG", false);
 
 - **エントリポイント**
   - フロント: `theme/src/assets/js/main.js`、`theme/src/assets/css/index.css`
-  - ブロックエディタ iframe: `theme/src/assets/css/editor.css`（theme.css のみ）
-- **CSS 構成**: 素の CSS。レイヤー順は `reset → theme → utilities`
+- **CSS 構成**: 素の CSS。レイヤー順は `reset → theme`
+  - リセットは [reset.css](theme/src/assets/css/base/reset.css)（kiso.css、編集不可）
   - トークンとベーススタイルは [theme.css](theme/src/assets/css/base/theme.css)（`@layer theme`）に集約
-  - 命名規則: ユーティリティ `u-*`
   - 新規 CSS ファイルは [index.css](theme/src/assets/css/index.css) に `@import` を追記する（自動集約しない）
 - **画像**: `assets_url('images/example.png')` で Vite の最適化パイプラインを通す
   - 開発: Vite dev server から配信
@@ -107,7 +106,7 @@ define("SCRIPT_DEBUG", false);
 - **その他のアセット**: `assets_url('css/custom.css')` で `src/assets/` から直接配信
 - **テーマルートのファイル**: `public_url('ogp.png')` で参照
 
-環境判定とアセット URL 解決は [theme/functions/vite.php](theme/functions/vite.php) と [theme/functions/assets.php](theme/functions/assets.php) を参照してください。エディタ用スタイルは `enqueue_block_assets` フックで `editor.css` のみを読み込んでいます。
+環境判定とアセット URL 解決は [theme/functions/vite.php](theme/functions/vite.php) と [theme/functions/assets.php](theme/functions/assets.php) を参照してください。
 
 ## 主な pnpm コマンド
 
@@ -198,15 +197,12 @@ pnpm blocks:new <block-name>
 │   │   └── vite.php             # Vite / HMR 対応
 │   ├── src/
 │   │   └── assets/
-│   │       ├── css/             # 素の CSS（@layer: reset / theme / utilities）
+│   │       ├── css/             # 素の CSS（@layer: reset / theme）
 │   │       │   ├── base/
-│   │       │   │   ├── breakpoints.css # @custom-media
 │   │       │   │   ├── reset.css       # kiso.css（編集不可）
 │   │       │   │   └── theme.css       # トークン + ベーススタイル
 │   │       │   ├── pages/             # ページ固有スタイル（任意）
-│   │       │   ├── index.css          # フロント用エントリ
-│   │       │   ├── editor.css         # ブロックエディタ iframe 用エントリ
-│   │       │   └── utilities.css      # u-* ユーティリティ
+│   │       │   └── index.css          # フロント用エントリ
 │   │       ├── images/
 │   │       └── js/
 │   │           ├── main.js      # JS エントリ
