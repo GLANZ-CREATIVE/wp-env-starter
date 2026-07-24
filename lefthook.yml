@@ -14,4 +14,8 @@ pre-commit:
       run: pnpm exec eslint --fix {staged_files}
       stage_fixed: true
     php-lint:
-      run: pnpm php:lint
+      glob: "theme/**/*.php"
+      run: |
+        for f in {staged_files}; do
+          php -l "$f" || exit 1
+        done

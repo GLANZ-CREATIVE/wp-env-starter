@@ -22,14 +22,10 @@
     "import:db": "pnpm wp-env run cli wp db import",
     "patterns:flush": "pnpm wp-env run cli wp eval 'wp_get_theme()->delete_pattern_cache();'",
     "format": "prettier --write 'theme/**/*.{css,js,ts,php}'",
-    "format:check": "prettier --check 'theme/**/*.{css,js,ts,php}'",
     "stylelint": "stylelint 'theme/src/**/*.css' --fix",
-    "stylelint:check": "stylelint 'theme/src/**/*.css'",
     "eslint": "eslint 'theme/src/**/*.{js,ts}' --fix",
-    "eslint:check": "eslint 'theme/src/**/*.{js,ts}'",
-    "php:lint": "git diff --cached --name-only --diff-filter=ACM | grep '\\.php$' | xargs -I {} sh -c 'php -l {} || exit 1'",
-    "php:lint:all": "find theme -name '*.php' -not -path 'theme/dist/*' -not -path 'theme/blocks/build/*' -exec php -l {} +",
-    "lint": "pnpm format:check && pnpm stylelint:check && pnpm eslint:check && pnpm php:lint:all"
+    "php:lint": "find theme -name '*.php' -not -path 'theme/dist/*' -not -path 'theme/blocks/build/*' -exec php -l {} +",
+    "lint": "prettier --check 'theme/**/*.{css,js,ts,php}' && stylelint 'theme/src/**/*.css' && eslint 'theme/src/**/*.{js,ts}' && pnpm php:lint"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",
