@@ -2,8 +2,6 @@
 
 Docker、Vite、wp-env を使用した WordPress テーマのローカル開発環境。素の CSS（`@layer` ベース）、HMR、カスタムブロック（pnpm workspace）、ブロックエディタ用スタイルに対応しています。
 
-Ref: [https://github.com/Masahiro-web/simple-wp-dev](https://github.com/Masahiro-web/simple-wp-dev)
-
 **目次**
 
 - [WordPress + Vite + Docker 開発環境](#wordpress--vite--docker-開発環境)
@@ -29,8 +27,7 @@ Ref: [https://github.com/Masahiro-web/simple-wp-dev](https://github.com/Masahiro
 
 - Docker と Docker Compose が起動していること
 - Node.js v24 以上
-- pnpm 10.33.0（`corepack enable` で有効化推奨）
-- Composer（PHPCS / PHPStan を使う場合）
+- pnpm 10.33.0
 
 mise 利用時: バージョンが異なる場合は `mise install` で指定版を取得し、`mise shell`（一時）または `mise use -g node@24`（グローバル）で有効化。`node -v` で反映を確認。
 
