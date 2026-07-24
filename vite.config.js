@@ -1,6 +1,8 @@
+import { globSync } from "node:fs";
+import { basename, resolve } from "node:path";
+
 import browserslist from "browserslist";
 import { browserslistToTargets } from "lightningcss";
-import { resolve } from "path";
 import { defineConfig } from "vite";
 import FullReload from "vite-plugin-full-reload";
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
@@ -8,6 +10,14 @@ import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 import { convertToWebp } from "./vite/plugins/convert-to-webp.js";
 
 const lightningcssTargets = browserslistToTargets(browserslist());
+
+// pages/*.css を自動でエントリ化する（CSS を追加するだけでビルド対象になる）
+const pageStyleEntries = Object.fromEntries(
+  globSync("theme/src/assets/css/pages/*.css").map((file) => [
+    basename(file, ".css"),
+    resolve(__dirname, file),
+  ]),
+);
 
 export default defineConfig({
   root: "theme/src",
@@ -19,6 +29,8 @@ export default defineConfig({
     cors: true,
     hmr: {
       host: "localhost",
+      protocol: "ws",
+      clientPort: 3000,
     },
     watch: {
       usePolling: true,
@@ -45,6 +57,7 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, "theme/src/assets/js/main.js"),
         style: resolve(__dirname, "theme/src/assets/css/index.css"),
+        ...pageStyleEntries,
       },
     },
   },

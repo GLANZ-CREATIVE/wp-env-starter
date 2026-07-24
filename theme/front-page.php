@@ -6,7 +6,7 @@
  * @package WPStarter
  */
 
-wp_enqueue_style('front-page', assets_url('css/pages/front-page.css'), [], '1.0.0');
+vite_enqueue_page_style('front-page', 'assets/css/pages/front-page.css');
 
 get_header(); ?>
 

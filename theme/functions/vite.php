@@ -91,6 +91,40 @@ function vite_get_asset_url($asset)
 }
 
 /**
+ * ページ別の Vite CSS を読み込む
+ *
+ * dev（Vite 起動中）: CSS は Vite が ESM として配信するため <link> では解釈できない。
+ *   module script として読み込ませ、HMR を有効にする。
+ * 本番 / dev 停止中: manifest 経由でハッシュ付き CSS を <link rel=stylesheet> で読む。
+ *
+ * front-page.php など、テンプレート内で対象ページだけ呼び出して使う。
+ *
+ * @param string $handle enqueue ハンドル（例: 'front-page'）
+ * @param string $asset  src からの相対パス（例: 'assets/css/pages/front-page.css'）
+ * @return void
+ */
+function vite_enqueue_page_style($handle, $asset)
+{
+  if (vite_is_running()) {
+    // dev: Vite dev server から module として読み込む（HMR 対象）
+    wp_enqueue_script($handle, VITE_DEV_ORIGIN . "/" . $asset, [], null, true);
+    wp_script_add_data($handle, "type", "module");
+    return;
+  }
+
+  // 本番: manifest からハッシュ付き CSS を <link> で読む
+  $manifest_content = vite_get_manifest();
+
+  if (null !== $manifest_content && isset($manifest_content[$asset]["file"])) {
+    $url = get_theme_file_uri("/dist/" . $manifest_content[$asset]["file"]);
+  } else {
+    $url = get_theme_file_uri("/dist/" . $asset);
+  }
+
+  wp_enqueue_style($handle, $url, [], null);
+}
+
+/**
  * 画像アセットのURLを取得
  *
  * @param string $image_path 画像の相対パス（例: 'assets/images/hero.jpg'）

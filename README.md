@@ -110,7 +110,17 @@ define("SCRIPT_DEBUG", false);
 - **CSS 構成**: 素の CSS。レイヤー順は `reset → theme`
   - リセットは [reset.css](theme/src/assets/css/base/reset.css)（kiso.css、編集不可）
   - トークンとベーススタイルは [theme.css](theme/src/assets/css/base/theme.css)（`@layer theme`）に集約
-  - 新規 CSS ファイルは [index.css](theme/src/assets/css/index.css) に `@import` を追記する（自動集約しない）
+  - 全ページ共通の CSS は [index.css](theme/src/assets/css/index.css) に `@import` を追記する（自動集約しない）
+- **ページ別 CSS**: `theme/src/assets/css/pages/` に置き、テンプレートで 1 行呼ぶだけ
+
+  ```php
+  // 例: front-page.php
+  vite_enqueue_page_style('front-page', 'assets/css/pages/front-page.css');
+  ```
+
+  - `pages/*.css` は Vite が自動でエントリ化する（`vite.config.js` の編集不要）
+  - **通常の `wp_enqueue_style()` との違い**: 通常の enqueue は Vite を通らず素の CSS を `<link>` で配信するため、HMR も lightningcss 変換も効かない。`vite_enqueue_page_style()` は dev で Vite 経由（HMR 有効）、本番は `manifest.json` からハッシュ付き CSS を解決する
+
 - **画像**: `assets_url('images/example.png')` で Vite の最適化パイプラインを通す
   - Vite 起動中: Vite dev server から元画像を配信
   - Vite 停止中 / 本番: PNG / JPEG / TIFF を WebP に変換し、圧縮したうえで `manifest.json` から解決（参照パスの拡張子は元のままでよい）

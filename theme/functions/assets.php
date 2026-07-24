@@ -29,10 +29,11 @@ function theme_enqueue_assets()
 add_action("wp_enqueue_scripts", "theme_enqueue_assets");
 
 /**
- * type=module を必要とするスクリプトに type 属性を付与する
+ * type=module 指定のスクリプトに type 属性を付与する
  *
  * wp_script_add_data($handle, 'type', 'module') では type 属性は出力されないため、
- * script_loader_tag フィルタで <script> タグに直接付与する。
+ * その data が付いた全スクリプトを対象に script_loader_tag フィルタで付与する。
+ * ハンドルを列挙しないので、ページ別 CSS 等を増やしても修正不要。
  *
  * @param string $tag    生成された script タグ
  * @param string $handle スクリプトハンドル
@@ -40,7 +41,11 @@ add_action("wp_enqueue_scripts", "theme_enqueue_assets");
  */
 function theme_script_type_module($tag, $handle)
 {
-  if (in_array($handle, ["vite-client", "theme-script"], true) && !str_contains($tag, 'type="module"')) {
+  if ("module" !== wp_scripts()->get_data($handle, "type")) {
+    return $tag;
+  }
+
+  if (!str_contains($tag, 'type="module"')) {
     $tag = str_replace("<script ", '<script type="module" ', $tag);
   }
 
