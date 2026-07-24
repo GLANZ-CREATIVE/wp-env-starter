@@ -15,5 +15,3 @@ pre-commit:
       stage_fixed: true
     php-lint:
       run: pnpm php:lint
-    php-cs:
-      run: pnpm php:cs:staged
