@@ -8,8 +8,9 @@
     "prepare": "lefthook install",
     "dev": "vite",
     "build": "pnpm build:blocks && vite build",
-    "build:blocks": "pnpm -r --parallel --filter \"./theme/blocks/*\" build",
-    "blocks:new": "node scripts/new-block.js",
+    "build:blocks": "wp-scripts build --source-path=theme/blocks --output-path=theme/blocks/build",
+    "start:blocks": "wp-scripts start --source-path=theme/blocks --output-path=theme/blocks/build",
+    "blocks:new": "cd theme/blocks && pnpm dlx @wordpress/create-block@latest --no-plugin --namespace theme",
     "wp-env": "wp-env",
     "start": "wp-env start && pnpm mailpit:start && pnpm dev",
     "stop": "wp-env stop && pnpm mailpit:stop",
@@ -27,7 +28,7 @@
     "eslint": "eslint 'theme/src/**/*.{js,ts}' --fix",
     "eslint:check": "eslint 'theme/src/**/*.{js,ts}'",
     "php:lint": "git diff --cached --name-only --diff-filter=ACM | grep '\\.php$' | xargs -I {} sh -c 'php -l {} || exit 1'",
-    "php:lint:all": "find theme -name '*.php' -not -path 'theme/dist/*' -not -path 'theme/blocks/*/build/*' -exec php -l {} +",
+    "php:lint:all": "find theme -name '*.php' -not -path 'theme/dist/*' -not -path 'theme/blocks/build/*' -exec php -l {} +",
     "lint": "pnpm format:check && pnpm stylelint:check && pnpm eslint:check && pnpm php:lint:all"
   },
   "devDependencies": {
@@ -35,6 +36,7 @@
     "@eslint/js": "^10.0.1",
     "@prettier/plugin-php": "^0.25.0",
     "@wordpress/env": "^11.8.0",
+    "@wordpress/scripts": "^33.0.0",
     "browserslist": "^4.28.4",
     "eslint": "^10.4.1",
     "eslint-config-prettier": "^10.1.8",

@@ -1,12 +1,15 @@
-packages:
-  - "theme/blocks/*"
-
 allowBuilds:
+  "@parcel/watcher": true
+  core-js: false
+  core-js-pure: false
   fs-ext-extra-prebuilt: true
   lefthook: true
   sharp: true
+  unrs-resolver: true
 
 onlyBuiltDependencies:
+  - "@parcel/watcher"
   - fs-ext-extra-prebuilt
   - lefthook
   - sharp
+  - unrs-resolver
