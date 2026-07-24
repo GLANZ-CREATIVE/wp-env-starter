@@ -1,24 +1,11 @@
 /*
- * レイヤー: reset < base < theme < components < pages < utilities
- * 命名:
- *   c-* … コンポーネント
- *   u-* … ユーティリティ
+ * レイヤー: reset < theme < utilities
+ * 命名: u-* … ユーティリティ
  */
-@layer reset, base, theme, components, pages, utilities;
+@layer reset, theme, utilities;
 
-/* base */
 @import url("./base/breakpoints.css");
 @import url("./base/reset.css");
-@import url("./base/tokens.css");
-@import url("./base/base.css");
-
-/* components */
-
-/* @import url("./components/button.css"); */
-
-/* pages */
-
-@import url("./pages/front-page.css") layer(pages);
-
-/* utilities */
+@import url("./base/theme.css");
+@import url("./pages/front-page.css") layer(theme);
 @import url("./utilities.css");

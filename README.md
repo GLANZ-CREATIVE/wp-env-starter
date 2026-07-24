@@ -25,7 +25,7 @@ Docker、Vite、wp-env を使用した WordPress テーマのローカル開発�
 
 ## 前提条件
 
-- Docker と Docker Compose が起動していること
+- Docker が起動していること
 - Node.js v24 以上
 - pnpm 10.33.0
 
@@ -96,10 +96,10 @@ define("SCRIPT_DEBUG", false);
 
 - **エントリポイント**
   - フロント: `theme/src/assets/js/main.js`、`theme/src/assets/css/index.css`
-  - ブロックエディタ iframe: `theme/src/assets/css/editor.css`（tokens + base.css）
-- **CSS 構成**: 素の CSS + ネスティング。レイヤー順は `reset → base → theme → components → utilities`
-  - トークンは [tokens.css](theme/src/assets/css/base/tokens.css) の `:root`（`@layer theme`）に集約
-  - 命名規則: コンポーネント `c-*` / ユーティリティ `u-*`
+  - ブロックエディタ iframe: `theme/src/assets/css/editor.css`（theme.css のみ）
+- **CSS 構成**: 素の CSS。レイヤー順は `reset → theme → utilities`
+  - トークンとベーススタイルは [theme.css](theme/src/assets/css/base/theme.css)（`@layer theme`）に集約
+  - 命名規則: ユーティリティ `u-*`
   - 新規 CSS ファイルは [index.css](theme/src/assets/css/index.css) に `@import` を追記する（自動集約しない）
 - **画像**: `assets_url('images/example.png')` で Vite の最適化パイプラインを通す
   - 開発: Vite dev server から配信
@@ -198,12 +198,11 @@ pnpm blocks:new <block-name>
 │   │   └── vite.php             # Vite / HMR 対応
 │   ├── src/
 │   │   └── assets/
-│   │       ├── css/             # 素の CSS（@layer ベース）
+│   │       ├── css/             # 素の CSS（@layer: reset / theme / utilities）
 │   │       │   ├── base/
-│   │       │   │   ├── reset.css      # kiso.css ベース（編集不可）
-│   │       │   │   ├── tokens.css     # デザイントークン（:root）
-│   │       │   │   └── base.css       # html/body/本文タイポ/リンク等
-│   │       │   ├── components/        # c-* コンポーネント（任意）
+│   │       │   │   ├── breakpoints.css # @custom-media
+│   │       │   │   ├── reset.css       # kiso.css（編集不可）
+│   │       │   │   └── theme.css       # トークン + ベーススタイル
 │   │       │   ├── pages/             # ページ固有スタイル（任意）
 │   │       │   ├── index.css          # フロント用エントリ
 │   │       │   ├── editor.css         # ブロックエディタ iframe 用エントリ

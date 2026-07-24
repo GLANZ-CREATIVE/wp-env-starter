@@ -26,35 +26,4 @@
     white-space: normal;
     clip-path: none;
   }
-
-  .u-flex-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .u-block {
-    display: block;
-  }
-
-  .u-inline-block {
-    display: inline-block;
-  }
-
-  .u-truncate {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .u-line-clamp-2 {
-    display: -webkit-box;
-    overflow: hidden;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
-
-  .u-break-words {
-    overflow-wrap: anywhere;
-  }
 }

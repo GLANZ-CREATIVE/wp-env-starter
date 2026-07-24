@@ -1,7 +1,6 @@
 /*
- * ブロックエディタ iframe 専用（tokens + 本文タイポ）
+ * ブロックエディタ iframe 専用（theme のみ）
  */
-@layer reset, base, theme, components, utilities;
+@layer reset, theme, utilities;
 
-@import url("./base/tokens.css");
-@import url("./base/base.css");
+@import url("./base/theme.css");
