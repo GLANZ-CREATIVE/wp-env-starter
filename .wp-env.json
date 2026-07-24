@@ -13,7 +13,6 @@
     "wp-content/themes/theme/dist": "./theme/dist",
     "wp-content/uploads": "./uploads",
     "wp-content/mu-plugins": "./mu-plugins",
-    "sql": "./sql",
-    "scripts": "./scripts"
+    "sql": "./sql"
   }
 }

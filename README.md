@@ -218,7 +218,6 @@ pnpm blocks:new <block-name>
 │   ├── style.css
 │   └── theme.json
 ├── mu-plugins/
-├── scripts/                     # 補助スクリプト（画像生成など）
 ├── sql/                         # DB バックアップ
 ├── uploads/
 ├── .wp-env.json                 # wp-env 設定
