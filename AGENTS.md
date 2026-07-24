@@ -11,7 +11,7 @@ pnpm destroy        # 環境を完全削除（データも消える）
 ```
 
 - WordPress: `http://localhost:8888`（管理画面: admin / password）
-- Vite: `http://localhost:3000`
+- Vite: `http://localhost:3000`（停止中は `pnpm build` 済みの `theme/dist` を自動利用）
 
 ## ビルド・リント
 

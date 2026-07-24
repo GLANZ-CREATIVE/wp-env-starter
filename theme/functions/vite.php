@@ -5,6 +5,45 @@
  * @package Theme
  */
 
+/** Vite 開発サーバーのオリジン（ブラウザから参照する URL） */
+const VITE_DEV_ORIGIN = "http://localhost:3000";
+
+/**
+ * Vite 開発サーバーが起動しているか（リクエスト内でキャッシュ）
+ *
+ * local のみプローブ。wp-env（Docker）からは host.docker.internal 経由でホストの Vite を見る。
+ * 起動中は HMR、停止中は dist を使う。
+ *
+ * @return bool
+ */
+function vite_is_running()
+{
+  static $is_running = null;
+
+  if (null !== $is_running) {
+    return $is_running;
+  }
+
+  if ("local" !== wp_get_environment_type()) {
+    $is_running = false;
+    return $is_running;
+  }
+
+  $port = (int) (parse_url(VITE_DEV_ORIGIN, PHP_URL_PORT) ?: 3000);
+  $errno = 0;
+  $errstr = "";
+  // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- 未起動時の接続失敗は想定どおり
+  $socket = @fsockopen("host.docker.internal", $port, $errno, $errstr, 0.1);
+
+  if ($socket) {
+    // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- ソケットクローズ
+    fclose($socket);
+  }
+
+  $is_running = (bool) $socket;
+  return $is_running;
+}
+
 /**
  * manifest.json の内容をリクエスト内でキャッシュして返す
  *
@@ -38,8 +77,8 @@ function vite_get_manifest()
  */
 function vite_get_asset_url($asset)
 {
-  if ("local" === wp_get_environment_type()) {
-    return "http://localhost:3000/" . $asset;
+  if (vite_is_running()) {
+    return VITE_DEV_ORIGIN . "/" . $asset;
   }
 
   $manifest_content = vite_get_manifest();
@@ -59,8 +98,8 @@ function vite_get_asset_url($asset)
  */
 function vite_get_image_url($image_path)
 {
-  if ("local" === wp_get_environment_type()) {
-    return "http://localhost:3000/" . $image_path;
+  if (vite_is_running()) {
+    return VITE_DEV_ORIGIN . "/" . $image_path;
   }
 
   $manifest_content = vite_get_manifest();
@@ -79,56 +118,36 @@ function vite_get_image_url($image_path)
 /**
  * テンプレートディレクトリURIの短縮関数（src/assets/まで）
  *
- * 画像ファイルの場合は自動的に Vite の最適化パイプラインを通します。
- * - 開発環境: Vite dev server (http://localhost:3000) から配信
- * - 本番環境: ビルド時に最適化された画像を manifest.json から読み込み
- *
- * 画像以外のアセット（CSS、JS など）は従来通り src/assets/ から直接配信されます。
+ * 画像は Vite パイプライン経由。起動中は dev server、停止中 / 本番は manifest（WebP）を返す。
+ * 画像以外は src/assets/ から直接配信。
  *
  * @param string $path アセットの相対パス（例: 'images/top/img-mv.png'）
  *                     空文字列の場合はベースURL（/src/assets）を返す
  * @return string アセットのURL
  *
  * @example
- * // 画像ファイル（自動的に最適化パイプラインを通す）
  * assets_url('images/top/img-mv.png')
- * // => 開発環境: 'http://localhost:3000/assets/images/top/img-mv.png'
- * // => 本番環境: '/wp-content/themes/theme/dist/assets/img-mv-abc123.png' (最適化済み)
+ * // => Vite 起動中: 'http://localhost:3000/assets/images/top/img-mv.png'
+ * // => Vite 停止中 / 本番: '.../dist/assets/img-mv-abc123.webp'
  *
- * // 画像以外のアセット（従来通り）
  * assets_url('css/custom.css')
  * // => '/wp-content/themes/theme/src/assets/css/custom.css'
  */
 function assets_url($path = "")
 {
-  // パスが空の場合はベースURLのみ返す
   if (empty($path)) {
     return get_template_directory_uri() . "/src/assets";
   }
 
   $normalized_path = ltrim($path, "/");
-
-  // 画像ファイルかどうかを判定（拡張子でチェック）
-  // 対応形式: jpg, jpeg, png, gif, webp, svg, avif, tiff
   $image_extensions = ["jpg", "jpeg", "png", "gif", "webp", "svg", "avif", "tiff"];
   $path_lower = strtolower($normalized_path);
-  $is_image = false;
 
   foreach ($image_extensions as $ext) {
     if (str_ends_with($path_lower, "." . $ext)) {
-      $is_image = true;
-      break;
+      return vite_get_image_url("assets/" . $normalized_path);
     }
   }
 
-  // 画像ファイルの場合は vite_get_image_url() を使用して最適化パイプラインを通す
-  if ($is_image) {
-    // assets_url() のパス形式（例: 'images/top/img-mv.png'）を
-    // vite_get_image_url() のパス形式（例: 'assets/images/top/img-mv.png'）に変換
-    $vite_path = "assets/" . $normalized_path;
-    return vite_get_image_url($vite_path);
-  }
-
-  // 画像以外のアセットは従来通り src/assets/ から直接配信
   return get_template_directory_uri() . "/src/assets/" . $normalized_path;
 }

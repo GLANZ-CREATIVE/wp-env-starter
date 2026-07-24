@@ -5,6 +5,8 @@ import { defineConfig } from "vite";
 import FullReload from "vite-plugin-full-reload";
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 
+import { convertToWebp } from "./vite/plugins/convert-to-webp.js";
+
 const lightningcssTargets = browserslistToTargets(browserslist());
 
 export default defineConfig({
@@ -48,10 +50,9 @@ export default defineConfig({
   },
   plugins: [
     FullReload(["theme/**/*.php"], { root: __dirname }),
+    convertToWebp({ quality: 80 }),
     ViteImageOptimizer({
-      test: /\.(jpe?g|png|gif|tiff|webp|svg|avif)$/i,
-      exclude: undefined,
-      include: undefined,
+      test: /\.(gif|webp|svg|avif)$/i,
       includePublic: true,
       logStats: true,
       ansiColors: true,
@@ -76,17 +77,9 @@ export default defineConfig({
           },
         ],
       },
-      png: {
-        quality: 80,
-      },
-      jpeg: {
-        quality: 80,
-      },
-      jpg: {
-        quality: 80,
-      },
       webp: {
         quality: 80,
+        lossless: false,
       },
     }),
   ],

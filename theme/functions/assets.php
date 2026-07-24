@@ -10,11 +10,9 @@
  */
 function theme_enqueue_assets()
 {
-  if ("local" === wp_get_environment_type()) {
-    if (!wp_script_is("vite-client", "enqueued")) {
-      wp_enqueue_script("vite-client", "http://localhost:3000/@vite/client", [], null, true);
-      wp_script_add_data("vite-client", "type", "module");
-    }
+  if (vite_is_running() && !wp_script_is("vite-client", "enqueued")) {
+    wp_enqueue_script("vite-client", VITE_DEV_ORIGIN . "/@vite/client", [], null, true);
+    wp_script_add_data("vite-client", "type", "module");
   }
 
   wp_enqueue_style("theme-style", vite_get_asset_url("assets/css/index.css"), [], null);

@@ -68,8 +68,19 @@ mise 利用時: バージョンが異なる場合は `mise install` で指定版
 - テーマの変更は `./theme` ディレクトリ内で行う
 - `WP_ENVIRONMENT_TYPE`: `local`（自動設定）
 - `WP_DEBUG` / `SCRIPT_DEBUG`: `true`
-- アセットは Vite 開発サーバーから HMR で配信
+- アセット配信は Vite の生死で自動切替
+  - Vite 起動中（`pnpm start` / `pnpm dev`）: HMR で配信
+  - Vite 停止中: `pnpm build` 済みの `theme/dist` を配信（本番相当の確認）
 - PHP ファイル変更時は vite-plugin-full-reload でブラウザが自動リロード
+
+本番ビルドの見え方をローカルで確認する例:
+
+```bash
+pnpm build
+pnpm wp-env start   # Vite なし → dist（WebP など）を使用
+```
+
+開発に戻すときは `pnpm start`（または別ターミナルで `pnpm dev`）すればよい。`.wp-env.json` の変更は不要。
 
 ### 本番環境
 
@@ -101,8 +112,8 @@ define("SCRIPT_DEBUG", false);
   - トークンとベーススタイルは [theme.css](theme/src/assets/css/base/theme.css)（`@layer theme`）に集約
   - 新規 CSS ファイルは [index.css](theme/src/assets/css/index.css) に `@import` を追記する（自動集約しない）
 - **画像**: `assets_url('images/example.png')` で Vite の最適化パイプラインを通す
-  - 開発: Vite dev server から配信
-  - 本番: `manifest.json` から最適化済みアセットを解決
+  - Vite 起動中: Vite dev server から元画像を配信
+  - Vite 停止中 / 本番: PNG / JPEG / TIFF を WebP に変換し、圧縮したうえで `manifest.json` から解決（参照パスの拡張子は元のままでよい）
 - **その他のアセット**: `assets_url('css/custom.css')` で `src/assets/` から直接配信
 - **テーマルートのファイル**: `public_url('ogp.png')` で参照
 
