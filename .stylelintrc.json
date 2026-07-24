@@ -12,6 +12,6 @@
   "ignoreFiles": [
     "theme/dist/**/*.css",
     "theme/style.css",
-    "theme/src/assets/css/base/reset.css"
+    "theme/**/reset.css"
   ]
 }
