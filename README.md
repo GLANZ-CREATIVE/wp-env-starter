@@ -54,10 +54,8 @@ pnpm import:db ./sql/backup-XXXX.sql  # リストア
 
 エントリは `theme/src/assets/` にあります。
 
-- **CSS**: 全ページ共通は `css/index.css` に `@import` を追加。レイヤー順は `reset → theme`
-  - デザイントークンとベーススタイルは `css/base/theme.css` に書く
-  - リセット（`css/base/reset.css`）は編集しない
-- **ページ別 CSS**: `css/pages/` に置き、テンプレートで 1 行呼ぶだけ（自動でエントリ化されます）
+- **CSS**: 全ページ共通は `css/index.css` に `@import` を追加。
+- **ページ別 CSS**: `css/pages/` に置き、テンプレートで 1 行呼ぶだけ（[vite.config.js](vite.config.js) が自動でエントリ化）
 
   ```php
   // front-page.php
@@ -68,7 +66,7 @@ pnpm import:db ./sql/backup-XXXX.sql  # リストア
 - **画像**: `assets_url('images/example.png')` で参照。ビルド時に自動で WebP 変換・圧縮されます
 - **テーマ直下のファイル**: `public_url('ogp.png')`
 
-> 仕組みの詳細は [functions/vite.php](theme/functions/vite.php) と [functions/assets.php](theme/functions/assets.php) を参照。
+> 仕組みの詳細は [vite.config.js](vite.config.js)、[functions/vite.php](theme/functions/vite.php)、[functions/assets.php](theme/functions/assets.php) を参照。
 
 ## カスタムブロック
 
