@@ -27,6 +27,7 @@ pnpm start     # WordPress + Vite + Mailpit をまとめて起動
 - Docker（起動しておく）
 - Node.js v24 以上 / pnpm 11+
 
+> [!NOTE]
 > Node のバージョンが古い場合は [`mise`](https://mise.jdx.dev/getting-started.html) で `mise use -g node@24` などと切り替えてください。
 
 ## よく使うコマンド
@@ -41,6 +42,7 @@ pnpm start     # WordPress + Vite + Mailpit をまとめて起動
 | `pnpm dev`          | Vite だけ起動                          |
 | `pnpm wp-env start` | WordPress だけ起動                     |
 
+> [!NOTE]
 > push する前に `pnpm lint` を実行してください。
 
 ### データベース
@@ -54,8 +56,10 @@ pnpm import:db ./sql/backup-XXXX.sql  # リストア
 
 エントリは `theme/src/assets/` にあります。
 
-- **CSS**: 全ページ共通は `css/index.css` に `@import` を追加。
-- **ページ別 CSS**: `css/pages/` に置き、テンプレートで 1 行呼ぶだけ（[vite.config.js](vite.config.js) が自動でエントリ化）
+- **CSS**: 全ページ共通は `css/index.css` に `@import` を追加。レイヤー順は `reset → theme`
+  - デザイントークンとベーススタイルは `css/base/theme.css` に書く
+  - リセット（`css/base/reset.css`）は編集しない
+- **ページ別 CSS**: `css/pages/` に置き、テンプレートで 1 行呼ぶだけ（自動でエントリ化されます）
 
   ```php
   // front-page.php
@@ -66,7 +70,8 @@ pnpm import:db ./sql/backup-XXXX.sql  # リストア
 - **画像**: `assets_url('images/example.png')` で参照。ビルド時に自動で WebP 変換・圧縮されます
 - **テーマ直下のファイル**: `public_url('ogp.png')`
 
-> 仕組みの詳細は [vite.config.js](vite.config.js)、[functions/vite.php](theme/functions/vite.php)、[functions/assets.php](theme/functions/assets.php) を参照。
+> [!NOTE]
+> 仕組みの詳細は [functions/vite.php](theme/functions/vite.php) と [functions/assets.php](theme/functions/assets.php) を参照。
 
 ## カスタムブロック
 
@@ -96,29 +101,26 @@ pnpm blocks:build              # 一括ビルド（pnpm build からも自動実
 
 ```plaintext
 .
-├── theme/                       # WordPress テーマ
-│   ├── blocks/                  # カスタムブロック（自動登録）
-│   ├── dist/                    # ビルド成果物（Git 管理外）
-│   ├── functions/               # テーマ機能（assets / blocks / vite など）
-│   ├── src/assets/              # CSS / JS / 画像のソース
-│   │   ├── css/base/            # reset（編集不可）+ theme（トークン）
-│   │   ├── css/pages/           # ページ別スタイル
-│   │   └── css/index.css        # 共通 CSS のエントリ
+├── theme/                  # WordPress テーマ
+│   ├── blocks/             # カスタムブロック（自動登録）
+│   ├── dist/               # ビルド成果物（Git 管理外）
+│   ├── functions/          # テーマ機能（assets / blocks / vite など）
+│   ├── src/assets/         # CSS / JS / 画像のソース
+│   │   ├── css/base/       # reset（編集不可）+ theme（トークン）
+│   │   ├── css/pages/      # ページ別スタイル
+│   │   └── css/index.css   # 共通 CSS のエントリ
 │   ├── functions.php
 │   ├── front-page.php / header.php / footer.php / index.php
 │   └── style.css / theme.json
 ├── mu-plugins/
-├── sql/                         # DB バックアップ
+├── sql/                    # DB バックアップ
 ├── uploads/
-├── .wp-env.json                 # wp-env 設定（開発専用）
+├── .wp-env.json            # wp-env 設定（開発専用）
 ├── docker-compose.mailpit.yml
 └── vite.config.js
 ```
 
 ## トラブルシューティング
-
-- **スタイルが当たらない / HMR しない**
-  Vite 停止中は `theme/dist` にフォールバックします。`dist` も無いとアセットが出ません。`pnpm start`（または `pnpm build`）してください。
 
 - **テーマが「theme」と表示される**
   テーマフォルダ名が CI/CD 前提で `theme` 固定のためです。別名のテーマで取った DB を入れると有効テーマがずれることがあるので、その場合は管理画面から再設定してください。
