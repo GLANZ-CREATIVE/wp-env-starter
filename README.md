@@ -56,10 +56,8 @@ pnpm import:db ./sql/backup-XXXX.sql  # リストア
 
 エントリは `theme/src/assets/` にあります。
 
-- **CSS**: 全ページ共通は `css/index.css` に `@import` を追加。レイヤー順は `reset → theme`
-  - デザイントークンとベーススタイルは `css/base/theme.css` に書く
-  - リセット（`css/base/reset.css`）は編集しない
-- **ページ別 CSS**: `css/pages/` に置き、テンプレートで 1 行呼ぶだけ（自動でエントリ化されます）
+- **CSS**: 全ページ共通は `css/index.css` に `@import` を追加。
+- **ページ別 CSS**: `css/pages/` に置き、テンプレートで 1 行呼ぶだけ（[vite.config.js](vite.config.js) が自動でエントリ化）
 
   ```php
   // front-page.php
