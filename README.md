@@ -96,26 +96,29 @@ pnpm blocks:build              # 一括ビルド（pnpm build からも自動実
 
 ```plaintext
 .
-├── theme/                  # WordPress テーマ
-│   ├── blocks/             # カスタムブロック（自動登録）
-│   ├── dist/               # ビルド成果物（Git 管理外）
-│   ├── functions/          # テーマ機能（assets / blocks / vite など）
-│   ├── src/assets/         # CSS / JS / 画像のソース
-│   │   ├── css/base/       # reset（編集不可）+ theme（トークン）
-│   │   ├── css/pages/      # ページ別スタイル
-│   │   └── css/index.css   # 共通 CSS のエントリ
+├── theme/                       # WordPress テーマ
+│   ├── blocks/                  # カスタムブロック（自動登録）
+│   ├── dist/                    # ビルド成果物（Git 管理外）
+│   ├── functions/               # テーマ機能（assets / blocks / vite など）
+│   ├── src/assets/              # CSS / JS / 画像のソース
+│   │   ├── css/base/            # reset（編集不可）+ theme（トークン）
+│   │   ├── css/pages/           # ページ別スタイル
+│   │   └── css/index.css        # 共通 CSS のエントリ
 │   ├── functions.php
 │   ├── front-page.php / header.php / footer.php / index.php
 │   └── style.css / theme.json
 ├── mu-plugins/
-├── sql/                    # DB バックアップ
+├── sql/                         # DB バックアップ
 ├── uploads/
-├── .wp-env.json            # wp-env 設定（開発専用）
+├── .wp-env.json                 # wp-env 設定（開発専用）
 ├── docker-compose.mailpit.yml
 └── vite.config.js
 ```
 
 ## トラブルシューティング
+
+- **スタイルが当たらない / HMR しない**
+  Vite 停止中は `theme/dist` にフォールバックします。`dist` も無いとアセットが出ません。`pnpm start`（または `pnpm build`）してください。
 
 - **テーマが「theme」と表示される**
   テーマフォルダ名が CI/CD 前提で `theme` 固定のためです。別名のテーマで取った DB を入れると有効テーマがずれることがあるので、その場合は管理画面から再設定してください。
