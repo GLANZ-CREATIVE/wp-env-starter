@@ -1,7 +1,7 @@
 // Import styles
 import "../css/index.css";
-// Import images (すべての画像を自動的に manifest.json に含める)
-import "./images.js";
+// PHP の assets_url('images/...') で参照されている画像だけ manifest に含める
+import "virtual:php-images";
 
 import { hello } from "./modules/hello";
 
