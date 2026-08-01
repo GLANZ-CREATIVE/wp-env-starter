@@ -71,6 +71,37 @@ pnpm import:db ./sql/backup-XXXX.sql  # リストア
 > [!NOTE]
 > 仕組みの詳細は [functions/vite.php](theme/functions/vite.php) と [functions/assets.php](theme/functions/assets.php) を参照。
 
+## Tailwind CSS を導入する
+
+1. パッケージを入れる
+
+   ```bash
+   pnpm add -D tailwindcss @tailwindcss/vite
+   ```
+
+2. `vite.config.js` にプラグインを足す
+
+   ```js
+   import tailwindcss from "@tailwindcss/vite";
+
+   export default defineConfig({
+     plugins: [tailwindcss()],
+   });
+   ```
+
+3. `theme/src/assets/css/index.css` をこうする
+
+   ```css
+   @import "tailwindcss";
+   @source "../../.."; /* theme/ 配下の PHP / JS をスキャン */
+   ```
+
+4. Vite を再起動する（`pnpm add` 後は必須）
+
+   ```bash
+   pnpm dev
+   ```
+
 ## カスタムブロック
 
 ブロックは [theme/blocks/](theme/blocks/) に置くと、PHP が自動で検出・登録します。
@@ -104,9 +135,8 @@ pnpm blocks:build              # 一括ビルド（pnpm build からも自動実
 │   ├── dist/               # ビルド成果物（Git 管理外）
 │   ├── functions/          # テーマ機能（assets / blocks / vite など）
 │   ├── src/assets/         # CSS / JS / 画像のソース
-│   │   ├── css/base/       # reset（編集不可）+ theme（トークン）
 │   │   ├── css/pages/      # ページ別スタイル
-│   │   └── css/index.css   # 共通 CSS のエントリ
+│   │   └── css/index.css   # 共通 CSS（Tailwind エントリ）
 │   ├── functions.php
 │   ├── front-page.php / header.php / footer.php / index.php
 │   └── style.css / theme.json
