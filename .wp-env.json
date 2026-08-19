@@ -1,7 +1,7 @@
 {
-  "core": "https://ja.wordpress.org/wordpress-7.0.2-ja.zip",
+  "core": "https://ja.wordpress.org/wordpress-7.0-ja.zip",
   "phpVersion": "8.4",
-  "plugins": [],
+  "plugins": ["https://downloads.wordpress.org/plugin/wp-multibyte-patch.latest-stable.zip"],
   "themes": ["./theme"],
   "port": 8888,
   "testsEnvironment": false,
