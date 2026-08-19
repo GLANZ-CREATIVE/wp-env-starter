@@ -113,6 +113,32 @@ pnpm blocks:build              # 一括ビルド（pnpm build からも自動実
 
 詳しくは [theme/blocks/README.md](theme/blocks/README.md) を参照してください。
 
+## WordPress 本体のバージョン
+
+`.wp-env.json` の `core` は日本語版の 7.0 系を指しています。パッチ番号を含まない URL なので、7.0 系の最新パッチが自動で使われます。
+
+```json
+"core": "https://ja.wordpress.org/wordpress-7.0-ja.zip"
+```
+
+ダウンロード済みの本体はキャッシュされるため、新しいパッチを取り込むには `--update` を付けて起動してください。
+
+```bash
+pnpm wp-env start --update
+```
+
+メジャーバージョンを上げるときは URL の `7.0` を書き換えます。
+
+## プラグイン
+
+`.wp-env.json` の `plugins` に指定したものが、起動時に自動でインストール・有効化されます。標準では日本語環境向けに [WP Multibyte Patch](https://ja.wordpress.org/plugins/wp-multibyte-patch/) が入ります。
+
+```json
+"plugins": ["https://downloads.wordpress.org/plugin/wp-multibyte-patch.latest-stable.zip"]
+```
+
+追加したい場合は同じ形式で zip の URL を並べます。`plugins` は開発環境用の設定なので、本番には別途インストールしてください。
+
 ## 本番デプロイ
 
 1. `pnpm build` でアセットを生成してデプロイ（`.wp-env.json` は開発専用なので不要）
