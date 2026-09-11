@@ -12,11 +12,14 @@ import { phpImageAssets } from "./vite/plugins/php-image-assets.js";
 
 const lightningcssTargets = browserslistToTargets(browserslist());
 
+// プロジェクトルート。ESM では __dirname が無いため import.meta.dirname を使う
+const rootDir = import.meta.dirname;
+
 // pages/*.css を自動でエントリ化する（CSS を追加するだけでビルド対象になる）
 const pageStyleEntries = Object.fromEntries(
   globSync("theme/src/assets/css/pages/*.css").map((file) => [
     basename(file, ".css"),
-    resolve(__dirname, file),
+    resolve(rootDir, file),
   ]),
 );
 
@@ -48,7 +51,7 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: resolve(__dirname, "theme/dist"),
+    outDir: resolve(rootDir, "theme/dist"),
     emptyOutDir: true,
     manifest: true,
     cssMinify: "lightningcss",
@@ -56,15 +59,15 @@ export default defineConfig({
     assetsInlineLimit: 0,
     rollupOptions: {
       input: {
-        main: resolve(__dirname, "theme/src/assets/js/main.js"),
-        style: resolve(__dirname, "theme/src/assets/css/index.css"),
+        main: resolve(rootDir, "theme/src/assets/js/main.js"),
+        style: resolve(rootDir, "theme/src/assets/css/index.css"),
         ...pageStyleEntries,
       },
     },
   },
   plugins: [
-    FullReload(["theme/**/*.php"], { root: __dirname }),
-    phpImageAssets({ root: __dirname }),
+    FullReload(["theme/**/*.php"], { root: rootDir }),
+    phpImageAssets({ root: rootDir }),
     convertToWebp({ quality: 80 }),
     ViteImageOptimizer({
       test: /\.(gif|webp|svg|avif)$/i,
