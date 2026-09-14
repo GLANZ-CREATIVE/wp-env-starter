@@ -56,10 +56,24 @@ export function convertToWebp(options = {}) {
         return;
       }
 
-      const fromPattern = new RegExp(
-        [...converted.keys()].map((name) => name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|"),
-        "g",
-      );
+      /** @param {string} content */
+      function replaceConvertedReferences(content) {
+        let next = content;
+
+        for (const [from, to] of converted) {
+          next = next.replaceAll(from, to);
+
+          const fromBase = path.basename(from);
+          const toBase = path.basename(to);
+          const basePattern = new RegExp(
+            fromBase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+            "g",
+          );
+          next = next.replace(basePattern, toBase);
+        }
+
+        return next;
+      }
 
       for (const fileName of Object.keys(bundle)) {
         if (!/\.(js|css|html)$/.test(fileName)) {
@@ -68,7 +82,7 @@ export function convertToWebp(options = {}) {
 
         const filePath = path.join(dir, fileName);
         const content = await fs.readFile(filePath, "utf8");
-        const next = content.replace(fromPattern, (match) => converted.get(match) ?? match);
+        const next = replaceConvertedReferences(content);
 
         if (next !== content) {
           await fs.writeFile(filePath, next);
