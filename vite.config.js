@@ -29,6 +29,8 @@ export default defineConfig({
   server: {
     host: "0.0.0.0",
     port: 3000,
+    // 8888 の WordPress ページに注入される CSS の url() を 3000 向けに解決する
+    origin: "http://localhost:3000",
     strictPort: true,
     cors: true,
     hmr: {
