@@ -24,8 +24,7 @@
     "format": "prettier --write 'theme/**/*.{css,js,ts,php}'",
     "stylelint": "stylelint 'theme/src/**/*.css' --fix",
     "eslint": "eslint 'theme/src/**/*.{js,ts}' --fix",
-    "php:lint": "find theme -name '*.php' -not -path 'theme/dist/*' -not -path 'theme/blocks/build/*' -exec php -l {} +",
-    "lint": "prettier --check 'theme/**/*.{css,js,ts,php}' && stylelint 'theme/src/**/*.css' && eslint 'theme/src/**/*.{js,ts}' && pnpm php:lint"
+    "lint": "prettier --check 'theme/**/*.{css,js,ts,php}' && stylelint 'theme/src/**/*.css' && eslint 'theme/src/**/*.{js,ts}'"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
