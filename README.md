@@ -1,15 +1,13 @@
 # WordPress + Vite + Docker 開発環境
 
-Docker・Vite・wp-env で動く WordPress テーマ開発環境です。HMR、画像圧縮+WebP変換、カスタムブロック、メール確認（Mailpit）に対応しています。
+wp-env による WordPress テーマ開発環境。HMR、画像圧縮 + WebP 変換、カスタムブロック、メール確認（Mailpit）に対応。
 
 ## クイックスタート
 
 ```bash
-pnpm install   # 依存関係をインストール
-pnpm start     # WordPress + Vite + Mailpit をまとめて起動
+pnpm install
+pnpm start     # WordPress + Vite + Mailpit を起動
 ```
-
-起動したら:
 
 | 用途       | URL                             |
 | ---------- | ------------------------------- |
@@ -18,9 +16,7 @@ pnpm start     # WordPress + Vite + Mailpit をまとめて起動
 | Vite       | http://localhost:3000           |
 | メール確認 | http://localhost:8025           |
 
-管理画面のログインは `admin` / `password` です。
-
-テーマの編集は `theme/` 以下で行います。CSS / JS は保存すると HMR で即反映、PHP は自動リロードされます。
+ログインは `admin` / `password`。編集は `theme/` 以下で行い、CSS / JS は HMR、PHP は自動リロードされます。
 
 ### 必要なもの
 
@@ -28,22 +24,22 @@ pnpm start     # WordPress + Vite + Mailpit をまとめて起動
 - Node.js v24 以上 / pnpm 12+
 
 > [!NOTE]
-> [`mise`](https://mise.jdx.dev/getting-started.html) を使っている場合は、リポジトリ直下で `mise install` を実行すれば `.mise.toml` の Node / pnpm がそのまま入ります。
+> [`mise`](https://mise.jdx.dev/getting-started.html) 利用時は `mise install` で `.mise.toml` の Node / pnpm が入ります。
 
 ## よく使うコマンド
 
-| コマンド            | 説明                                   |
-| ------------------- | -------------------------------------- |
-| `pnpm start`        | WordPress + Vite + Mailpit を起動      |
-| `pnpm stop`         | 停止（データは残る）                   |
-| `pnpm destroy`      | 環境を完全削除（データも消える）       |
-| `pnpm build`        | 本番用ビルド（`theme/dist/` に出力）   |
-| `pnpm lint`         | format / stylelint / eslint / php lint |
-| `pnpm dev`          | Vite だけ起動                          |
-| `pnpm wp-env start` | WordPress だけ起動                     |
+| コマンド            | 説明                                 |
+| ------------------- | ------------------------------------ |
+| `pnpm start`        | WordPress + Vite + Mailpit を起動    |
+| `pnpm stop`         | 停止（データは残る）                 |
+| `pnpm destroy`      | 完全削除（データも消える）           |
+| `pnpm build`        | 本番用ビルド（`theme/dist/` に出力） |
+| `pnpm lint`         | prettier / stylelint / eslint        |
+| `pnpm dev`          | Vite だけ起動                        |
+| `pnpm wp-env start` | WordPress だけ起動                   |
 
 > [!NOTE]
-> push する前に `pnpm lint` を実行してください。
+> push 前に `pnpm lint` を実行してください。
 
 ### データベース
 
@@ -54,94 +50,95 @@ pnpm import:db ./sql/backup-XXXX.sql  # リストア
 
 ## アセットの書き方
 
-エントリは `theme/src/assets/` にあります。
+ソースは `theme/src/assets/`。
 
-- **CSS**: 全ページ共通は `css/index.css` に `@import` を追加。
-- **ページ別 CSS**: `css/pages/` に置き、テンプレートで 1 行呼ぶだけ（[vite.config.js](vite.config.js) が自動でエントリ化）
+- **共通 CSS**: `css/index.css` に `@import` を追加
+- **ページ別 CSS**: `css/pages/` に置けば自動でエントリ化され、テンプレートから 1 行で読み込めます
 
   ```php
   // front-page.php
-  vite_enqueue_page_style('front-page', 'assets/css/pages/front-page.css');
+  vite_enqueue_page_style("front-page", "assets/css/pages/front-page.css");
   ```
 
 - **JS**: エントリは `js/main.js`
-- **画像**: `assets_url('images/example.png')` で参照。ビルド時に自動で WebP 変換・圧縮されます
+- **画像（PHP）**: `assets_url('images/example.png')`
+- **画像（CSS）**: 絶対パス・相対パスどちらでも解決されます
+
+  ```css
+  background-image: url("/assets/images/example.png"); /* theme/src/ 起点 */
+  background-image: url("../../images/example.png");
+  ```
+
+  PNG / JPEG / TIFF は元の拡張子のまま書けば、ビルド時にハッシュ付きの `.webp` へ変換され参照も書き換わります。`.webp` の直接参照も可。
+
 - **テーマ直下のファイル**: `public_url('ogp.png')`
 
 > [!NOTE]
-> 仕組みの詳細は [functions/vite.php](theme/functions/vite.php) と [functions/assets.php](theme/functions/assets.php) を参照。
+> 詳細は [functions/vite.php](theme/functions/vite.php) と [functions/assets.php](theme/functions/assets.php) を参照。
 
 ## Tailwind CSS を導入する
 
-1. パッケージを入れる
+```bash
+pnpm add -D tailwindcss @tailwindcss/vite
+```
 
-   ```bash
-   pnpm add -D tailwindcss @tailwindcss/vite
-   ```
+`vite.config.js` にプラグインを追加:
 
-2. `vite.config.js` にプラグインを足す
+```js
+import tailwindcss from "@tailwindcss/vite";
 
-   ```js
-   import tailwindcss from "@tailwindcss/vite";
+export default defineConfig({
+  plugins: [tailwindcss()],
+});
+```
 
-   export default defineConfig({
-     plugins: [tailwindcss()],
-   });
-   ```
+`theme/src/assets/css/index.css`:
 
-3. `theme/src/assets/css/index.css` をこうする
+```css
+@import "tailwindcss";
+@source "../../.."; /* theme/ 配下の PHP / JS をスキャン */
+```
 
-   ```css
-   @import "tailwindcss";
-   @source "../../.."; /* theme/ 配下の PHP / JS をスキャン */
-   ```
-
-4. Vite を再起動する（`pnpm add` 後は必須）
-
-   ```bash
-   pnpm dev
-   ```
+最後に `pnpm dev` で Vite を再起動します（`pnpm add` 後は必須）。
 
 ## カスタムブロック
 
-ブロックは [theme/blocks/](theme/blocks/) に置くと、PHP が自動で検出・登録します。
+[theme/blocks/](theme/blocks/) に置くと PHP が自動で検出・登録します。
 
 ```bash
 pnpm blocks:new <block-name>   # 雛形を生成（小文字とハイフンのみ）
-pnpm blocks:build              # 一括ビルド（pnpm build からも自動実行）
+pnpm blocks:build              # 一括ビルド（pnpm build からも実行される）
 ```
 
-詳しくは [theme/blocks/README.md](theme/blocks/README.md) を参照してください。
+詳細は [theme/blocks/README.md](theme/blocks/README.md) を参照。
 
 ## WordPress 本体のバージョン
 
-`.wp-env.json` の `core` は日本語版の 7.0 系を指しています。パッチ番号を含まない URL なので、7.0 系の最新パッチが自動で使われます。
+`.wp-env.json` の `core` は日本語版 7.0 系を指します。パッチ番号なしの URL なので最新パッチが自動で使われます。
 
 ```json
 "core": "https://ja.wordpress.org/wordpress-7.0-ja.zip"
 ```
 
-ダウンロード済みの本体はキャッシュされるため、新しいパッチを取り込むには `--update` を付けて起動してください。
+本体はキャッシュされるため、新しいパッチの取り込みには `--update` が必要です。メジャーバージョンを上げるときは URL の `7.0` を書き換えます。
 
 ```bash
 pnpm wp-env start --update
 ```
 
-メジャーバージョンを上げるときは URL の `7.0` を書き換えます。
-
 ## プラグイン
 
-`.wp-env.json` の `plugins` に指定したものが、起動時に自動でインストール・有効化されます。標準では日本語環境向けに [WP Multibyte Patch](https://ja.wordpress.org/plugins/wp-multibyte-patch/) が入ります。
+`.wp-env.json` の `plugins` に並べた zip が起動時に自動でインストール・有効化されます。標準では [WP Multibyte Patch](https://ja.wordpress.org/plugins/wp-multibyte-patch/) が入ります。
 
 ```json
 "plugins": ["https://downloads.wordpress.org/plugin/wp-multibyte-patch.latest-stable.zip"]
 ```
 
-追加したい場合は同じ形式で zip の URL を並べます。`plugins` は開発環境用の設定なので、本番には別途インストールしてください。
+開発環境用の設定なので、本番には別途インストールしてください。
 
 ## 本番デプロイ
 
-1. `pnpm build` でアセットを生成してデプロイ（`.wp-env.json` は開発専用なので不要）
+1. `pnpm build` でアセットを生成してデプロイ（`.wp-env.json` は不要）
 2. 本番の `wp-config.php` でデバッグを無効化
 
    ```php
@@ -177,7 +174,7 @@ pnpm wp-env start --update
 ## トラブルシューティング
 
 - **テーマが「theme」と表示される**
-  テーマフォルダ名が CI/CD 前提で `theme` 固定のためです。別名のテーマで取った DB を入れると有効テーマがずれることがあるので、その場合は管理画面から再設定してください。
+  テーマフォルダ名が CI/CD 前提で `theme` 固定のためです。別名のテーマで取った DB を入れると有効テーマがずれるので、管理画面から再設定してください。
 
 - **テーマフォルダ名を変えたい**
   `.wp-env.json` の `themes` と `mappings` が `./theme` にハードコードされています。両方を合わせて変更してください。
