@@ -1,14 +1,13 @@
 import { existsSync, globSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
+import { stripPhpComments } from "./strip-php-comments.js";
+
 const VIRTUAL_MODULE_ID = "virtual:php-images";
 const RESOLVED_VIRTUAL_MODULE_ID = "\0" + VIRTUAL_MODULE_ID;
 
 const IMAGE_EXT = "jpg|jpeg|png|gif|webp|svg|avif|tiff";
-const ASSETS_URL_PATTERN = new RegExp(
-  `assets_url\\s*\\(\\s*(['"])(images\\/[^'"]+\\.(?:${IMAGE_EXT}))\\1\\s*\\)`,
-  "gi",
-);
+const ASSETS_URL_PATTERN = new RegExp(`assets_url\\s*\\(\\s*(['"])(images\\/[^'"]+\\.(?:${IMAGE_EXT}))\\1\\s*\\)`, "gi");
 
 /**
  * PHP の assets_url('images/...') 参照だけを Vite のビルド対象にする。
@@ -22,10 +21,6 @@ export function phpImageAssets(options = {}) {
 
   /** @type {string[]} */
   let cachedImagePaths = [];
-
-  function stripPhpComments(content) {
-    return content.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*$/gm, "");
-  }
 
   function scanPhpFiles() {
     const phpFiles = globSync(`${themeDir}/**/*.php`, { cwd: root });

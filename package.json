@@ -10,8 +10,8 @@
     "stop": "wp-env stop && pnpm mailpit:stop",
     "destroy": "wp-env destroy",
     "wp-env": "wp-env",
-    "mailpit:start": "docker-compose -f docker-compose.mailpit.yml up -d",
-    "mailpit:stop": "docker-compose -f docker-compose.mailpit.yml down",
+    "mailpit:start": "docker compose -f docker-compose.mailpit.yml up -d",
+    "mailpit:stop": "docker compose -f docker-compose.mailpit.yml down",
     "dev": "vite",
     "build": "pnpm blocks:build && vite build",
     "blocks:build": "wp-scripts build --source-path=theme/blocks --output-path=theme/blocks/build",
@@ -20,11 +20,12 @@
     "backup:db": "pnpm wp-env run cli wp db export ./sql/backup-$(date +%Y%m%d).sql",
     "backup:db:win": "powershell -Command \"pnpm wp-env run cli wp db export ./sql/backup-$(Get-Date -Format 'yyyyMMdd').sql\"",
     "import:db": "pnpm wp-env run cli wp db import",
-    "patterns:flush": "pnpm wp-env run cli wp eval 'wp_get_theme()->delete_pattern_cache();'",
-    "format": "prettier --write 'theme/**/*.{css,js,ts,php}'",
-    "stylelint": "stylelint 'theme/src/**/*.css' --fix",
-    "eslint": "eslint 'theme/src/**/*.{js,ts}' --fix",
-    "lint": "prettier --check 'theme/**/*.{css,js,ts,php}' && stylelint 'theme/src/**/*.css' && eslint 'theme/src/**/*.{js,ts}'"
+    "patterns:flush": "pnpm wp-env run cli wp eval \"wp_get_theme()->delete_pattern_cache();\"",
+    "format": "prettier --write \"theme/**/*.{css,js,ts,php}\"",
+    "stylelint": "stylelint \"theme/src/**/*.css\" --fix",
+    "eslint": "eslint \"theme/src/**/*.{js,ts}\" --fix",
+    "test": "node --test",
+    "lint": "prettier --check \"theme/**/*.{css,js,ts,php}\" && stylelint \"theme/src/**/*.css\" && eslint \"theme/src/**/*.{js,ts}\""
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
