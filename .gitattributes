@@ -1,0 +1,10 @@
+# Windows の core.autocrlf=true でも LF でチェックアウトし、Prettier（endOfLine: lf）と揃える
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.avif binary
+*.ico binary
