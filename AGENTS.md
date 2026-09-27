@@ -17,8 +17,8 @@ pnpm destroy        # 環境を完全削除（データも消える）
 
 ```bash
 pnpm build       # ブロック + Vite 本番ビルド
-pnpm lint        # format / stylelint / eslint / php lint
-pnpm format      # Prettier
+pnpm lint        # format / stylelint / eslint
+pnpm format      # Prettier（PHP は対象外。VS Code の Intelephense で整形）
 pnpm stylelint   # CSS 自動修正
 pnpm eslint      # JS/TS 自動修正
 ```

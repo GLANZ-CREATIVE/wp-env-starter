@@ -39,7 +39,7 @@ pnpm start     # WordPress + Vite + Mailpit を起動
 | `pnpm wp-env start` | WordPress だけ起動                   |
 
 > [!NOTE]
-> push 前に `pnpm lint` を実行してください。
+> push 前に `pnpm lint` を実行してください。PHP は Prettier の対象外で、VS Code の Intelephense が保存時に整形します。
 
 ### データベース
 

@@ -21,15 +21,14 @@
     "backup:db:win": "powershell -Command \"pnpm wp-env run cli wp db export ./sql/backup-$(Get-Date -Format 'yyyyMMdd').sql\"",
     "import:db": "pnpm wp-env run cli wp db import",
     "patterns:flush": "pnpm wp-env run cli wp eval \"wp_get_theme()->delete_pattern_cache();\"",
-    "format": "prettier --write \"theme/**/*.{css,js,ts,php}\"",
+    "format": "prettier --write \"theme/**/*.{css,js,ts}\"",
     "stylelint": "stylelint \"theme/src/**/*.css\" --fix",
     "eslint": "eslint \"theme/src/**/*.{js,ts}\" --fix",
     "test": "node --test",
-    "lint": "prettier --check \"theme/**/*.{css,js,ts,php}\" && stylelint \"theme/src/**/*.css\" && eslint \"theme/src/**/*.{js,ts}\""
+    "lint": "prettier --check \"theme/**/*.{css,js,ts}\" && stylelint \"theme/src/**/*.css\" && eslint \"theme/src/**/*.{js,ts}\""
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@prettier/plugin-php": "^0.25.0",
     "@wordpress/env": "^11.16.0",
     "@wordpress/scripts": "^36.0.0",
     "browserslist": "^4.29.0",
