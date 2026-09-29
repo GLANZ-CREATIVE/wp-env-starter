@@ -128,10 +128,24 @@ pnpm wp-env start --update
 
 ## プラグイン
 
-`.wp-env.json` の `plugins` に並べた zip が起動時に自動でインストール・有効化されます。標準では [WP Multibyte Patch](https://ja.wordpress.org/plugins/wp-multibyte-patch/) が入ります。
+`.wp-env.json` の `plugins` に並べた zip が起動時に自動でインストール・有効化されます。標準では次の 5 つが入ります。
+
+| 目的             | プラグイン                                                                     |
+| ---------------- | ------------------------------------------------------------------------------ |
+| 日本語の表示補正 | [WP Multibyte Patch](https://ja.wordpress.org/plugins/wp-multibyte-patch/)     |
+| バックアップ     | [UpdraftPlus](https://wordpress.org/plugins/updraftplus/)                      |
+| 画像の変換       | [Converter for Media](https://wordpress.org/plugins/webp-converter-for-media/) |
+| SEO              | [SEO SIMPLE PACK](https://wordpress.org/plugins/seo-simple-pack/)              |
+| セキュリティ     | [CloudSecure WP Security](https://wordpress.org/plugins/cloudsecure-wp-security/) |
 
 ```json
-"plugins": ["https://downloads.wordpress.org/plugin/wp-multibyte-patch.latest-stable.zip"]
+"plugins": [
+  "https://downloads.wordpress.org/plugin/wp-multibyte-patch.latest-stable.zip",
+  "https://downloads.wordpress.org/plugin/updraftplus.latest-stable.zip",
+  "https://downloads.wordpress.org/plugin/webp-converter-for-media.latest-stable.zip",
+  "https://downloads.wordpress.org/plugin/seo-simple-pack.latest-stable.zip",
+  "https://downloads.wordpress.org/plugin/cloudsecure-wp-security.latest-stable.zip"
+]
 ```
 
 開発環境用の設定なので、本番には別途インストールしてください。
