@@ -114,13 +114,13 @@ pnpm blocks:build              # 一括ビルド（pnpm build からも実行さ
 
 ## WordPress 本体のバージョン
 
-`.wp-env.json` の `core` は日本語版 7.0 系を指します。パッチ番号なしの URL なので最新パッチが自動で使われます。
+`.wp-env.json` の `core` は日本語版 7.1 系の最新（`wordpress-7.1-ja.zip`）を指します。7.1 系の最新パッチが自動で使われます。
 
 ```json
-"core": "https://ja.wordpress.org/wordpress-7.0-ja.zip"
+"core": "https://ja.wordpress.org/wordpress-7.1-ja.zip"
 ```
 
-本体はキャッシュされるため、新しいパッチの取り込みには `--update` が必要です。メジャーバージョンを上げるときは URL の `7.0` を書き換えます。
+本体はキャッシュされるため、最新パッチの取り込みには `--update` が必要です。マイナーバージョンを上げるときは URL の `7.1` を書き換えます。
 
 ```bash
 pnpm wp-env start --update
@@ -128,10 +128,24 @@ pnpm wp-env start --update
 
 ## プラグイン
 
-`.wp-env.json` の `plugins` に並べた zip が起動時に自動でインストール・有効化されます。標準では [WP Multibyte Patch](https://ja.wordpress.org/plugins/wp-multibyte-patch/) が入ります。
+`.wp-env.json` の `plugins` に並べた zip が起動時に自動でインストール・有効化されます。標準では次の 5 つが入ります。
+
+| 目的             | プラグイン                                                                     |
+| ---------------- | ------------------------------------------------------------------------------ |
+| 日本語の表示補正 | [WP Multibyte Patch](https://ja.wordpress.org/plugins/wp-multibyte-patch/)     |
+| バックアップ     | [UpdraftPlus](https://wordpress.org/plugins/updraftplus/)                      |
+| 画像の変換       | [Converter for Media](https://wordpress.org/plugins/webp-converter-for-media/) |
+| SEO              | [SEO SIMPLE PACK](https://wordpress.org/plugins/seo-simple-pack/)              |
+| セキュリティ     | [CloudSecure WP Security](https://wordpress.org/plugins/cloudsecure-wp-security/) |
 
 ```json
-"plugins": ["https://downloads.wordpress.org/plugin/wp-multibyte-patch.latest-stable.zip"]
+"plugins": [
+  "https://downloads.wordpress.org/plugin/wp-multibyte-patch.latest-stable.zip",
+  "https://downloads.wordpress.org/plugin/updraftplus.latest-stable.zip",
+  "https://downloads.wordpress.org/plugin/webp-converter-for-media.latest-stable.zip",
+  "https://downloads.wordpress.org/plugin/seo-simple-pack.latest-stable.zip",
+  "https://downloads.wordpress.org/plugin/cloudsecure-wp-security.latest-stable.zip"
+]
 ```
 
 開発環境用の設定なので、本番には別途インストールしてください。
