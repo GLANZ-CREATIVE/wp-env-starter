@@ -76,30 +76,12 @@ pnpm import:db ./sql/backup-XXXX.sql  # リストア
 > [!NOTE]
 > 詳細は [functions/vite.php](theme/functions/vite.php) と [functions/assets.php](theme/functions/assets.php) を参照。
 
-## Tailwind CSS を導入する
+## CSS 拡張
 
-```bash
-pnpm add -D tailwindcss @tailwindcss/vite
-```
+任意導入の手順は `docs/` にあります。
 
-`vite.config.js` にプラグインを追加:
-
-```js
-import tailwindcss from "@tailwindcss/vite";
-
-export default defineConfig({
-  plugins: [tailwindcss()],
-});
-```
-
-`theme/src/assets/css/index.css`:
-
-```css
-@import "tailwindcss";
-@source "../../.."; /* theme/ 配下の PHP / JS をスキャン */
-```
-
-最後に `pnpm dev` で Vite を再起動します（`pnpm add` 後は必須）。
+- [Tailwind CSS を導入する](docs/tailwind.md)
+- [Sass を導入する](docs/sass.md)
 
 ## カスタムブロック
 
@@ -173,13 +155,14 @@ pnpm wp-env start --update
 │   ├── functions/          # テーマ機能（assets / blocks / vite など）
 │   ├── src/assets/         # CSS / JS / 画像のソース
 │   │   ├── css/pages/      # ページ別スタイル
-│   │   └── css/index.css   # 共通 CSS（Tailwind エントリ）
+│   │   └── css/index.css   # 共通 CSS
 │   ├── functions.php
 │   ├── front-page.php / header.php / footer.php / index.php
 │   └── style.css / theme.json
 ├── mu-plugins/
 ├── sql/                    # DB バックアップ
 ├── uploads/
+├── docs/                   # 任意導入の手順（Tailwind CSS / Sass など）
 ├── .wp-env.json            # wp-env 設定（開発専用）
 ├── docker-compose.mailpit.yml
 └── vite.config.js
