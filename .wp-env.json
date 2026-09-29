@@ -1,5 +1,5 @@
 {
-  "core": "https://ja.wordpress.org/latest-ja.zip",
+  "core": "https://ja.wordpress.org/wordpress-7.1-ja.zip",
   "phpVersion": "8.4",
   "plugins": [
     "https://downloads.wordpress.org/plugin/wp-multibyte-patch.latest-stable.zip",
