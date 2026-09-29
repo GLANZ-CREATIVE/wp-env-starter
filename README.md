@@ -114,13 +114,13 @@ pnpm blocks:build              # 一括ビルド（pnpm build からも実行さ
 
 ## WordPress 本体のバージョン
 
-`.wp-env.json` の `core` は日本語版 7.0 系を指します。パッチ番号なしの URL なので最新パッチが自動で使われます。
+`.wp-env.json` の `core` は日本語版の最新（`latest-ja.zip`）を指します。メジャー・マイナー・パッチいずれも最新が使われます。
 
 ```json
-"core": "https://ja.wordpress.org/wordpress-7.0-ja.zip"
+"core": "https://ja.wordpress.org/latest-ja.zip"
 ```
 
-本体はキャッシュされるため、新しいパッチの取り込みには `--update` が必要です。メジャーバージョンを上げるときは URL の `7.0` を書き換えます。
+本体はキャッシュされるため、最新版の取り込みには `--update` が必要です。
 
 ```bash
 pnpm wp-env start --update
