@@ -78,7 +78,7 @@ pnpm import:db ./sql/backup-XXXX.sql  # リストア
 
 ## CSS 拡張
 
-任意導入の手順は `docs/` にあります。
+必要に応じて導入する手順は `docs/` にあります。
 
 - [Tailwind CSS を導入する](docs/tailwind.md)
 - [Sass を導入する](docs/sass.md)
@@ -162,7 +162,7 @@ pnpm wp-env start --update
 ├── mu-plugins/
 ├── sql/                    # DB バックアップ
 ├── uploads/
-├── docs/                   # 任意導入の手順（Tailwind CSS / Sass など）
+├── docs/                   # 必要に応じて導入する手順（Tailwind CSS / Sass など）
 ├── .wp-env.json            # wp-env 設定（開発専用）
 ├── docker-compose.mailpit.yml
 └── vite.config.js
