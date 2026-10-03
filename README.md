@@ -58,7 +58,10 @@ pnpm import:db ./sql/backup-XXXX.sql  # リストア
   ```php
   // front-page.php
   vite_enqueue_page_style("front-page", "assets/css/pages/front-page.css");
+  get_header();
   ```
+
+  `get_header()` より前に呼んでください。後に呼ぶと `<link>` がフッター側に出力され、スタイルのない画面が一瞬表示されます。
 
 - **JS**: エントリは `js/main.js`
 - **画像（PHP）**: `assets_url('images/example.png')`
