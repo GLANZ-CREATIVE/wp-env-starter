@@ -128,13 +128,24 @@ pnpm wp-env start --update
 
 ## プラグイン
 
-`.wp-env.json` の `plugins` に並べた zip が起動時に自動でインストール・有効化されます。標準では [WP Multibyte Patch](https://ja.wordpress.org/plugins/wp-multibyte-patch/) が入ります。
+`.wp-env.json` の `plugins` に並べた zip が起動時に自動でインストール・有効化されます。標準では次のプラグインが入ります。
+
+| 種類             | 目的                                                                           | プラグイン                                                                           |
+| ---------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| 日本語の表示補正 | 日本語の文字数の数え方や、メール送信時の文字化けを補正する                     | [WP Multibyte Patch](https://ja.wordpress.org/plugins/wp-multibyte-patch/)           |
+| バックアップ     | ファイルとデータベースを定期的にバックアップする                               | [UpdraftPlus](https://ja.wordpress.org/plugins/updraftplus/)                         |
+| 画像の変換       | メディアライブラリにアップロードした JPEG・PNG を WebP に変換して配信する      | [Converter for Media](https://ja.wordpress.org/plugins/webp-converter-for-media/)    |
+| SEO              | title・meta description・OGP・noindex を、ページの種類ごと・投稿ごとに設定する | [SEO SIMPLE PACK](https://ja.wordpress.org/plugins/seo-simple-pack/)                 |
+| セキュリティ     | ログインの試行回数の制限、2 段階認証                                           | [CloudSecure WP Security](https://ja.wordpress.org/plugins/cloudsecure-wp-security/) |
 
 ```json
-"plugins": ["https://downloads.wordpress.org/plugin/wp-multibyte-patch.latest-stable.zip"]
+"plugins": [
+  "https://downloads.wordpress.org/plugin/wp-multibyte-patch.latest-stable.zip",
+  "https://downloads.wordpress.org/plugin/updraftplus.latest-stable.zip"
+]
 ```
 
-開発環境用の設定なので、本番には別途インストールしてください。
+追加・削除は `plugins` の配列を編集して `pnpm wp-env start --update` を実行します。開発環境用の設定なので、本番には別途インストールしてください。
 
 ## 本番デプロイ
 
