@@ -31,6 +31,10 @@ node_modules/
 ehthumbs.db
 Thumbs.db
 
+# WordPress uploads（wp-env のマッピング先。メディアやプラグインの生成物）
+/uploads/*
+!/uploads/.gitkeep
+
 # Composer
 /vendor/
 
